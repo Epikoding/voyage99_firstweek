@@ -5,6 +5,8 @@ from flask import Flask, render_template
 ca = certifi.where()
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
+client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
+
 db = client.dbfirstweek
 app = Flask(__name__)
 
