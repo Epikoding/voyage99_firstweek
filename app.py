@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 
 ca = certifi.where()
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
-# client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
+# client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
+client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
 
 db = client.dbfirstweek
 app = Flask(__name__)
@@ -184,10 +184,10 @@ def sign_up():
     return jsonify({'result': 'success'})
 
 
-@app.route('/join/check_dup', methods=['POST'])
-def check_dup():
-    username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
+@app.route('/join/id_check', methods=['POST'])
+def id_check():
+    id_receive = request.form['id_give']
+    exists = bool(db.users.find_one({"id": id_receive}))
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
 
