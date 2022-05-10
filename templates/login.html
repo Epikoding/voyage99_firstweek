@@ -26,6 +26,23 @@
     function log_in() {
         let id = $("#input-username").val()
         let pw = $("#input-password").val()
+
+        if (id == "") {
+            alert('아이디를 입력해주세요.')
+            $("#input-username").focus()
+            return;
+        } else {
+            $("#input-username").text("")
+        }
+
+        if (pw == "") {
+            alert('비밀번호를 입력해주세요.')
+            $("#input-password").focus()
+            return;
+        } else {
+            $("#input-password").text("")
+        }
+
         $.ajax({
             type: "POST",
             url: "/login",
@@ -33,6 +50,7 @@
                 id_give: id,
                 pw_give: pw
             },
+
             success: function (response) {
                 console.log('성공')
                 if (response['result'] == 'success') {
@@ -45,44 +63,6 @@
             }
         })
     }
-
-    /*
-    if (username == "") {
-        alert('아이디를 입력해주세요.')
-        $("#id").focus()
-        return;
-    } else {
-        $("#id").text("")
-    }
-
-    if (pw == "") {
-        alert('비밀번호를 입력해주세요.')
-        $("#password").focus()
-        return;
-    } else {
-        $("#password").text("")
-    }
-     */
-    /*
-        $.ajax({
-            type: "POST",
-            url: "/login",
-            data: {
-                id_give: id,
-                pw_give: pw
-            },
-            success: function (response) {
-                console.log(id, pw)
-                if (response['result'] == 'success') {
-                    $.cookie('mytoken', response['token'], {path: '/'});
-                    alert(response['msg'])
-                    window.location.replace("/home")
-                } else {
-                    alert(response['msg'])
-                }
-            }
-        });
-            */
 
 
 </script>
