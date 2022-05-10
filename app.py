@@ -80,7 +80,7 @@ def sign_in():
 
 
 # 회원 가입
-@app.route('/sign_up', methods=["POST"])
+@app.route('/join', methods=["POST"])
 def sign_up():
     id_receive = request.form['give_id']
     pw_receive = request.form['give_pw']
