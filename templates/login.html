@@ -4,9 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>짤방못잃어에 로그인하세요!</title>
+
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
+<script>
+    function log_in() {
+        // 변수선언
+        let id = $("#input-username").val()
+        let pw = $("#input-password").val()
+
+        //상기 변수의 강조 효과
+        if (id == "") {
+            alert('아이디를 입력해주세요.')
+            $("#input-username").focus()
+            return;
+        } else {
+            $("#input-username").text("")
+        }
+
+        if (pw == "") {
+            alert('비밀번호를 입력해주세요.')
+            $("#input-password").focus()
+            return;
+        } else {
+            $("#input-password").text("")
+        }
+
+        // ajax 콜 app.py로 전송 및 로그인 진행
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: {
+                id_give: id,
+                pw_give: pw
+            },
+
+            success: function (response) {
+                // console.log('성공')
+                if (response['result'] == 'success') {
+                    $.cookie('mytoken', response['token'], {path: '/'});
+                    alert(response['msg'])
+                    window.location.replace("/")
+                } else {
+                    alert(response['msg'])
+                }
+            }
+        })
+    }
+
+
+</script>
 <body>
 <!-- Navbar -->
     <div class="navbar">
@@ -21,6 +81,7 @@
             </div>
         </div>
     </div>
+</div>
 <!--main page -->
     <div class="container main">
         <!--login box -->
@@ -39,8 +100,10 @@
             <button type="submit" class="btn btn-primary" id="">로그인</button>
             <button type="submit" class="btn btn-primary-kakao" id="">카카오톡으로 로그인</button>
         </div>
-    </div>
 
+        <button onclick="log_in()" type="submit" class="btn btn-primary" id="">로그인</button>
+    </div>
+</div>
 
 </body>
 </html>
