@@ -24,9 +24,11 @@
 </head>
 <script>
     function log_in() {
+        // 변수선언
         let id = $("#input-username").val()
         let pw = $("#input-password").val()
 
+        //상기 변수의 강조 효과
         if (id == "") {
             alert('아이디를 입력해주세요.')
             $("#input-username").focus()
@@ -43,6 +45,7 @@
             $("#input-password").text("")
         }
 
+        // ajax 콜 app.py로 전송 및 로그인 진행
         $.ajax({
             type: "POST",
             url: "/login",
@@ -52,7 +55,7 @@
             },
 
             success: function (response) {
-                console.log('성공')
+                // console.log('성공')
                 if (response['result'] == 'success') {
                     $.cookie('mytoken', response['token'], {path: '/'});
                     alert(response['msg'])
