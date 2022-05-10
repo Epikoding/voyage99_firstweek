@@ -5,53 +5,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>짤방못잃어에 로그인하세요!</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 </head>
+<script>
+    // 아이디 형식 제한
+    function is_id(asValue) {
+        var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+        return regExp.test(asValue);
+    }
+
+    // 비밀번호 형식 제한
+    function is_pw(asValue) {
+        var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+        return regExp.test(asValue);
+    }
+
+    // 중복된 아이디인지 확인
+    function duplicated_id_check() {
+        let id = $("#input-username").val()
+
+        $.ajax({
+            type: "POST",
+            url: "/join/id_check",
+            data: {
+                id_give: id
+            },
+            success: function (response) {
+                if (response["exists"]) {
+                    alert("이미 존재하는 아이디입니다.")
+                    $("#input-username").text("")
+                }
+            }
+        })
+    }
+
+    // 회원가입 진행
+    function join_in() {
+        let id = $("#input-username").val()
+        let pw= $("#input-password").val()
+        let pw2= $("#input-password2").val()
+
+        //회원가입 때 아이디 확인
+        if (id == "") {
+            alert('아이디를 입력해주세요.')
+            $("#input-username").focus()
+            return;
+        } else {
+            $("#input-username").text("")
+        }
+        if (!is_id(id)) {
+            alert("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이")
+        }
+
+        // 비밀번호 란의 비밀번호 확인
+        if (pw == "") {
+            alert("비밀번호를 입력해주세요.")
+            return
+        } else if (!is_pw(pw)) {
+            alert("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자")
+            return
+        }
+
+        // 비밀번호 확인 란 확인
+        if (pw2 == "") {
+            alert("비밀번호를 한 번더 입력해주세요.")
+            return
+        }
+        // 비밀번호 두 개가 서로 일치하지 않을 경우
+        if (pw2 != pw) {
+            alert("비밀번호가 일치하지 않습니다.")
+            return
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/join/save",
+            data: {
+                id_give: id,
+                pw_give: pw
+            },
+            success: function (response) {
+                alert("회원가입을 축하드립니다!")
+                window.location.replace("/login")
+            }
+        })
+    }
+
+
+</script>
 <body>
 <!-- Navbar -->
-    <div class="navbar">
-        <div class="container flex">
-            <a href="index.html" class="logo">짤방못잃어</a>
-            <div class="navbar-links">
-                <ul>
-                    <li><a href="">짤올리기</a></li>
-                    <li><a href="mine.html">My짤</a></li>
-                    <li><a href="login.html">로그인</a></li>
-                    <li><a href="join.html">회원가입</a></li>
-            </div>
+<div class="navbar">
+    <div class="container flex">
+        <a href="index.html" class="logo">짤방못잃어</a>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="">짤올리기</a></li>
+                <li><a href="mine.html">My짤</a></li>
+                <li><a href="login.html">로그인</a></li>
+                <li><a href="join.html">회원가입</a></li>
         </div>
     </div>
+</div>
 <!--main page -->
-    <div class="container main">
-        <div class="joinbox">
-            <div class="jointext">회원가입</div>
+<div class="container main">
+    <div class="joinbox">
+        <div class="jointext">회원가입</div>
 
-            <div class="joinbox-box">
-                <h3>아이디</h3>
-                  <input TYPE="text" placeholder="아이디" class="inputbox">
-            </div>
-
-            <div class="joinbox-box">
-                <h3>비밀번호</h3>
-                    <input TYPE="text" placeholder="비밀번호" class="inputbox">
-            </div>
-            <div class="joinbox-box">
-                <h3>비밀번호 확인</h3>
-                    <input TYPE="text" placeholder="비밀번호 확인" class="inputbox">
-            </div>
-            <div class="joinbox-box">
-                <h3>닉네임</h3>
-                    <input TYPE="text" placeholder="닉네임" class="inputbox">
-            </div>
-            <div class="join-buttons">
-                <button type="submit" class="btn btn-primary-join" id="">확인</button>
-                <button type="submit" class="btn btn-primary-join" id="" onclick="location.href='index.html'">취소</button>
-                <button type="submit" class="btn btn-primary-kakao" id="">카카오톡으로 회원가입</button>
-            </div>
+        <div class="joinbox-box">
+            <h3>아이디</h3>
+            <input TYPE="text" placeholder="아이디" class="inputbox" id="input-username">
         </div>
 
+        <div class="joinbox-box">
+            <h3>비밀번호</h3>
+            <input TYPE="text" placeholder="비밀번호" class="inputbox" id="input-password">
+        </div>
+        <div class="joinbox-box">
+            <h3>비밀번호 확인</h3>
+            <input TYPE="text" placeholder="비밀번호 확인" class="inputbox" id="input-password2">
+        </div>
+        <div class="joinbox-box">
+            <h3>닉네임</h3>
+            <input TYPE="text" placeholder="닉네임" class="inputbox">
+        </div>
+        <div class="join-buttons">
+            <button type="submit" class="btn btn-primary-join" onclick="duplicated_id_check(); join_in();">확인</button>
+            <button type="submit" class="btn btn-primary-join" id="" onclick="location.href='index.html'">취소</button>
+            <button type="submit" class="btn btn-primary-kakao" id="">카카오톡으로 회원가입</button>
+        </div>
     </div>
-
-
+</div>
 </body>
 </html>
