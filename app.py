@@ -1,7 +1,11 @@
-import certifi
 from pymongo import MongoClient
-from flask import Flask, render_template
-
+import jwt
+import datetime
+import hashlib
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from werkzeug.utils import secure_filename
+from datetime import datetime, timedelta
+import certifi
 ca = certifi.where()
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
@@ -19,6 +23,7 @@ SECRET_KEY = 'SPARTA'
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 # 로그인 페이지 이동
 @app.route('/login')
@@ -54,18 +59,47 @@ def posts_search():
 
 
 # 로그인
-@app.route('/sign-in', methods=["POST"])
+@app.route('/sign_in', methods=["POST"])
 def sign_in():
-    return
+    id_receive = request.form['give_id']
+    pw_receive = request.form['give_pw']
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()  # 패스워드 암호화
+    result = db.users.find_one({'id': id_receive, 'pw': pw_hash})  # 동일한 유저가 있는지 확인
 
-
-# page 구분선 =========================================================================================
+    # 동일한 유저가 있으면, 암호해독, 결과 -> 성공 및 환영인사.
+    if result is not None:
+        payload = {
+            'id': id_receive,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  # .decode('utf8')
+        return jsonify({'result': 'success', 'token': token, 'msg': '환영합니다.'})
+    # 동일한 유저가 없으면, 결과 -> 실패, 다시 로그인.
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/패스워드가 일치하지 않습니다.'})
 
 
 # 회원 가입
-@app.route('/sign-up', methods=["POST"])
+@app.route('/sign_up', methods=["POST"])
 def sign_up():
-    return
+    id_receive = request.form['give_id']
+    pw_receive = request.form['give_pw']
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()  # 패스워드 암호화
+
+    doc = {
+        "아이디": id_receive,
+        "비밀번호": pw_receive,
+    }
+    db.users.insert_one(doc)
+    return jsonify({'result': 'success'})
+
+
+@app.route('/sign_up/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    exists = bool(db.users.find_one({"username": username_receive}))
+    # print(value_receive, type_receive, exists)
+    return jsonify({'result': 'success', 'exists': exists})
 
 
 
