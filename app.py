@@ -1,11 +1,10 @@
 from pymongo import MongoClient
 import jwt
-import datetime
 import hashlib
-from flask import Flask, render_template, jsonify, request, redirect, url_for
-from werkzeug.utils import secure_filename
-from datetime import datetime, timedelta
 import certifi
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+from datetime import datetime, timedelta
+
 ca = certifi.where()
 
 # client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
@@ -24,9 +23,8 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
-
 # 로그인 페이지 이동
-@app.route('/login')
+@app.route('/log')
 def login():
     return render_template('login.html')
 
@@ -37,23 +35,115 @@ def join():
 
 # my짤 페이지 이동
 @app.route('/posts/mine', methods=["GET"])
+# @app.route('/posts/mine')
 def mine():
-    return
+    return render_template('mine.html')
 
 # 짤 데이터 DB에 저장
-@app.route('/upload', methods=["POST"])
+# @app.route('/upload', methods=["POST"])
+@app.route('/upload') #중간 완성
 def upload():
-    return
+    tag_receive = set()
+
+    # id_receive = request.form['id_give']    # 쿠키로 받아도 될듯
+    # tag_receive.add(request.form['tag_give'])
+    # url_receive = request.form['url_give']
+    # hit_receive = request.form['hit_give']
+    # like_receive = request.form['like_give']
+
+    # 테스트용 자료 삽입 ==============================
+    id_receive = "test9"
+    tag_receive.add("개발자9")
+    tag_receive.add("내코드9")
+    tag_receive.add("코린이9")
+    url_receive = "https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800"
+    # url_receive = "https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg"
+    # url_receive = "https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg0"
+    # 테스트용 자료 삽입 ==============================
+
+    today = datetime.now()   # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
+    date_receive = today.strftime('%Y-%m-%d-%H-%M-%S')
+    hit_receive = 0
+    like_receive = 0
+
+    post_list = list(db.posts.find({}, {'_id': False}))
+
+    tag_receive = list(tag_receive)  # 임시로 set타입을 list 타입으로 변환 / mongodb or dict 에 set타입 오류 발견됨
+    print(tag_receive)
+
+    if len(post_list) == 0:
+        post_num = 1
+    else:
+        post_num = post_list[-1]['post_num'] + 1
+
+    doc = {
+        'post_num': post_num,
+        'id': id_receive,
+        'tag': tag_receive,
+        'url': url_receive,
+        'date': date_receive,
+        'hit': hit_receive,
+        'like': like_receive
+    }
+
+    db.posts.insert_one(doc)
+
+    return redirect(url_for("home"))  # 어디로 갈까?
+
 
 # 태그 비교 하여 불러 오기
-@app.route('/posts/tag', methods=["GET"])
+# @app.route('/posts/tag', methods=["GET"])
+@app.route('/posts/tag') #중간 완성
 def posts_tag():
-    return
+    # tag_receive = request.values.get('tag_give')
+    tag_receive = "개발자4"  # 테스트용 코드
+    post_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
+    print(post_list)
+    return redirect(url_for("home"))
+
 
 # 검색 하여 데이터 불러 오기
-@app.route('/posts/search', methods=["GET"])
+# @app.route('/posts/search', methods=["GET"])
+@app.route('/posts/search') #작업중
 def posts_search():
+    # tag_receive = request.values.get('tag_give')
+    tag_receive = "개발자4 코린이4"  # 테스트용 코드
+
+    posts = set()
+
+    for tag_receive in tag_receive.split():
+        if (list(db.posts.find({'tag': tag_receive}, {'_id': False}))):
+            posts_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
+            posts_tuple = tuple(posts_list)
+            print(type(posts_tuple))
+            posts.add(posts_tuple)
+            print(posts)
+            print("내부")
+    print("외부")
+    print(posts)
+
+    # post_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
+    # print(post_list)
+    return redirect(url_for("home"))
+
+
+# 조회수 올리기
+@app.route('/posts/hit-up', methods=["POST"])
+def posts_hit_up():
     return
+
+
+# 좋아요 or 취소 선택
+@app.route('/posts/like', methods=["POST"])
+def posts_like():
+    return
+
+
+# 짤줍 : 원하는 짤 모으기
+@app.route('/posts/save', methods=["POST"])
+def posts_save():
+    return
+
 
 # page 구분선 =========================================================================================
 
