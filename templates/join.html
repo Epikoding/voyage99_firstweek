@@ -1,202 +1,57 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- Webpage Title -->
-    <title>Log In | SWEETER</title>
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bulma CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <!-- Font Awesome CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
-    <script>
-        /*
-        // 회원가입하기 적합한 아이디인지 확인
-        function is_id(asValue) {
-            var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
-            return regExp.test(asValue);
-        }
-        // 회원가입하기 적합한 비밀번호인지 확인
-        function is_password(asValue) {
-            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
-            return regExp.test(asValue);
-        }
-        */
-
-        // 회원가입
-        function sign_up() {
-            let id = $("#input-username").val()
-            let pw = $("#input-password").val()
-            let pw2 = $("#input-password2").val()
-            console.log(id, pw, pw2)
-
-            /*
-            if ($("#help-id").hasClass("is-danger")) {
-                alert("아이디를 다시 확인해주세요.")
-                return;
-            } else if (!$("#help-id").hasClass("is-success")) {
-                alert("아이디 중복확인을 해주세요.")
-                return;
-            }
-
-            if (password == "") {
-                $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password").focus()
-                return;
-            } else if (!is_password(password)) {
-                $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
-                $("#input-password").focus()
-                return
-            } else {
-                $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
-            }
-            if (password2 == "") {
-                $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password2").focus()
-                return;
-            } else if (password2 != password) {
-                $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password2").focus()
-                return;
-            } else {
-                $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
-            }
-            */
-            $.ajax({
-                type: "POST",
-                url: "/join/save",
-                data: {
-                    id_give: id,
-                    pw_give: pw
-                },
-                success: function (response) {
-                    alert("회원가입을 축하드립니다!")
-                    window.location.replace("/login")
-                }
-            });
-
-        }
-
-        /*
-        function check_dup() {
-            let username = $("#input-username").val()
-            console.log(username)
-            if (username == "") {
-                $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-username").focus()
-                return;
-            }
-            if (!is_id(username)) {
-                $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
-                $("#input-username").focus()
-                return;
-            }
-            $("#help-id").addClass("is-loading")
-            $.ajax({
-                type: "POST",
-                url: "/join/check_dup",
-                data: {
-                    username_give: username
-                },
-                success: function (response) {
-
-                    if (response["exists"]) {
-                        $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
-                        $("#input-username").focus()
-                    } else {
-                        $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
-                    }
-                    $("#help-id").removeClass("is-loading")
-
-                }
-            });
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/sign_up/save",
-            data: {
-                username_give: username,
-                password_give: password
-            },
-            success: function (response) {
-                alert("회원가입을 축하드립니다!")
-                window.location.replace("/login")
-            }
-        });
-        */
-    </script>
-
+    <title>짤방못잃어에 로그인하세요!</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
 </head>
 <body>
-<section class="hero is-white">
-    <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
-        <h1 class="title is-sparta">회원가입은 못참지 🙊</h1>
-    </div>
-</section>
-<section class="section">
-    <div class="container">
-        <div class="box" style="max-width: 480px;margin:auto">
-            <article class="media">
-                <div class="media-content">
-                    <div class="content">
-                        <div class="field has-addons">
-                            <div class="control has-icons-left" style="width:100%">
-                                <input id="input-username" class="input" type="text" placeholder="아이디">
-                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
-                            </div>
-                            <div id="btn-check-dup" class="control">
-                                <button class="button is-sparta" onclick="check_dup()">중복확인</button>
-                            </div>
-
-                        </div>
-                        <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
-                        <p id="help-id-login" class="help is-danger"></p>
-
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input id="input-password" class="input" type="password" placeholder="비밀번호">
-                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-                            </div>
-                            <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도
-                                사용
-                                가능합니다.</p>
-                        </div>
-                    </div>
-                    <div id="sign-up-box">
-                        <div class="mb-5">
-                            <div class="field">
-                                <div class="control has-icons-left" style="width:100%">
-                                    <input id="input-password2" class="input" type="password" pw
-                                           placeholder="비밀번호 재입력">
-                                    <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-                                </div>
-                                <p id="help-passwor gd2" class="help">비밀번호를 다시 한 번 입력해주세요.</p>
-                            </div>
-                        </div>
-                        <nav class="level is-mobile">
-                            <button class="level-item button is-sparta" onclick="sign_up()">
-                                회원가입
-                            </button>
-                            <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()">
-                                취소
-                            </button>
-                        </nav>
-                    </div>
-                </div>
-            </article>
+<!-- Navbar -->
+    <div class="navbar">
+        <div class="container flex">
+            <a href="index.html" class="logo">짤방못잃어</a>
+            <div class="navbar-links">
+                <ul>
+                    <li><a href="">짤올리기</a></li>
+                    <li><a href="mine.html">My짤</a></li>
+                    <li><a href="login.html">로그인</a></li>
+                    <li><a href="join.html">회원가입</a></li>
+            </div>
         </div>
     </div>
-</section>
+<!--main page -->
+    <div class="container main">
+        <div class="joinbox">
+            <div class="jointext">회원가입</div>
+
+            <div class="joinbox-box">
+                <h3>아이디</h3>
+                  <input TYPE="text" placeholder="아이디" class="inputbox">
+            </div>
+
+            <div class="joinbox-box">
+                <h3>비밀번호</h3>
+                    <input TYPE="text" placeholder="비밀번호" class="inputbox">
+            </div>
+            <div class="joinbox-box">
+                <h3>비밀번호 확인</h3>
+                    <input TYPE="text" placeholder="비밀번호 확인" class="inputbox">
+            </div>
+            <div class="joinbox-box">
+                <h3>닉네임</h3>
+                    <input TYPE="text" placeholder="닉네임" class="inputbox">
+            </div>
+            <div class="join-buttons">
+                <button type="submit" class="btn btn-primary-join" id="">확인</button>
+                <button type="submit" class="btn btn-primary-join" id="" onclick="location.href='index.html'">취소</button>
+                <button type="submit" class="btn btn-primary-kakao" id="">카카오톡으로 회원가입</button>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
