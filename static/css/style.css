@@ -146,7 +146,9 @@ a {
   border-radius: 20px;
 }
 
-.tag:hover {
+
+.tag:hover,
+.modaltag:hover {
   transform: scale(0.99);
   cursor: pointer;
   background-color: var( --tag-hover);
@@ -416,20 +418,36 @@ a {
   outline: none;
   border: none;
 }
+
+
 /* 상세정보 모달 start */
+
 .modal-info{
   /*모달 배경*/
-  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+  position:absolute;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.8);
+  top:0;
+  left:0;
+  display:none;
 }
-/* 상세정보 모달 end */
+
+
+
 .modal-info-content{
   /*모달 창*/
-  width:700px; height:700px;
+  width:40%;
+  height:80%;
   border-radius:10px;
-  position:relative; top:50%; left:50%;
-  margin-top:-300px; margin-left:-300px;
+  position:relative;
+  top:40%;
+  left:50%;
+  margin-top:-300px;
+  margin-left:-300px;
   text-align:center;
-  box-sizing:border-box; padding:74px 0;
+  box-sizing:border-box;
+  padding:74px 0;
   line-height:23px;
 
   background-color: var( --box-color);
@@ -440,41 +458,70 @@ a {
   justify-content: center;
 }
 
-.modal-info-icons{
-  width:500px; height:50px;
-  background-color: #d9534f;
-  border: 1px solid black;
+.modal-content-box {
 
-  /*justify-content: space-between;*/
 }
+
+.modal-info-icons{
+  display: flex;
+  justify-content: space-between;
+
+  width: 400px;
+}
+
+.clicknum {
+  font-size: 1.1rem;
+}
+
+.rightside > i {
+  font-size: 1.3rem;
+  margin-left: 0.7rem;
+  margin-right: 0.3rem;
+}
+
 
 .modal-info-img{
-  /*background-color: #017ac9;*/
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  margin-top: 0.4rem;
 }
 .upload-img{
-  width: 500px;
-  height: 500px;
+  width: 400px;
   object-fit: cover;
 }
 .modal-info-tagbox {
-  height: 150px;
-  width: 550px;
+  width: 400px;
   display: flex;
   /* tag가 넘쳐났을 경우 다음 줄로 이동 */
   flex-wrap: wrap;
 
-  background-color: var(--box-color);
-  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
-  border-radius: 20px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
 
-  padding: 1.5rem;
-  margin-top: 1rem;
+
+.modaltag {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+
+  margin: 0.3rem;
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+
+  background-color: var( --tag-color);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+  height: 2.2rem;
+  border-radius: 20px;
 }
-.modal-info-tags{
-  background-color: #43b243;
+
+.fa-solid .fa-heart {
+  color: red;
 }
+
+
+
+/* 상세정보 모달 end */
+
 /* 짤 올리기 모달 start */
 .modal{
   /*모달 배경*/
@@ -520,13 +567,14 @@ a {
     background-color: var( --box-color);
     box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
 }
-.fa-upload {
+.modal-url .fa-upload {
   position: absolute;
   right: 20px;
   top: 15px;
   color: black;
   cursor: pointer;
 }
+
 
 .modal-btns > button {
 
