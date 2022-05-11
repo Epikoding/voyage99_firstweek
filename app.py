@@ -33,13 +33,9 @@ def home():
             temp_posts = list()
         if post_list.index(post) % 4 != 3:
             temp_posts.append(post)
-            print(temp_posts)
         else:
             temp_posts.append(post)
             posts.append(temp_posts)
-            print(temp_posts)
-            print(posts)
-            print('@@@@@@@@@@@@@@@@@@@@@@')
     if temp_posts:
         posts.append(temp_posts)
 
@@ -64,46 +60,31 @@ def join():
     return render_template('join.html')
 
 # my짤 페이지 이동
-@app.route('/posts/mine', methods=["GET"])
-# @app.route('/posts/mine')
+@app.route('/posts/mine', methods=["GET"])  #작업중
 def mine():
     token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
 
-    post_list = list(db.posts.find({}, {'_id': False}).sort('post_num', -1))  # DB posts collection 에서 짤 데이터 불러 오기
-    posts = list()  # client 전달용 list 변수 선언
-    # posts 재정렬 (기존 리스트를 4개의 요소 단위로 묶은 리스트로 변경)
-    # e.g.  [1, 2, 3, 4, 5, 6, 7, 8, 9] => [[1, 2, 3, 4], [5, 6, 7, 8], [9]]
-    temp_posts = list()
-    for post in post_list:
-        if len(temp_posts) == 4:
-            temp_posts = list()
-        if post_list.index(post) % 4 != 3:
-            temp_posts.append(post)
-            print(temp_posts)
-        else:
-            temp_posts.append(post)
-            posts.append(temp_posts)
-            print(temp_posts)
-            print(posts)
-            print('@@@@@@@@@@@@@@@@@@@@@@')
-    if temp_posts:
-        posts.append(temp_posts)
+    # 테스트용
+    user_info = {'id': '테스트', 'pw': 'testpass', 'nick': '닉네임', 'email': 'tester@test.com', 'post_num': [1, 3, 4, 6]}
+    posts_list = user_info['post_num']
+    posts = list()
+    for post in posts_list:
+        print(post)
+        posts.append(db.posts.find_one({"post_num": post}))  # DB posts collection 에서 짤 데이터 불러 오기
+
+    print(posts)
+
 
     # 쿠키값(로그인 판별) 여부에 따른 mine.html 전송 자료 결정
     if token_receive is not None:
         # payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # user_info = db.users.find_one({"id": payload["id"]})  # DB users collection 에서 user 데이터 불러 오기
 
-        # 테스트용
-        user_info = {'id': '테스트', 'pw':'testpass', }
-        post_num = user_info['post_num']
-
-
         login_status = 1  # 로그인 판벌(bool 사용 해봐도 될듯)
-        return render_template('mine.html', posts=posts, user_info=user_info, login_status=login_status)
+        return render_template('mine.html', puser_info=user_info, login_status=login_status)
     else:
         login_status = 0
-        return render_template('mine.html', posts=posts, login_status=login_status)
+        return render_template('mine.html', login_status=login_status)
 
 # 짤 데이터 DB에 저장
 # @app.route('/upload', methods=["POST"])
