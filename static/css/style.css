@@ -9,9 +9,10 @@
 
 
 :root {
-  --primary-color: #4db0ef;
+  --primary-color: #6dd1ff;
   --secondary-color: #017ac9;
-  --tag-color: #bfd8fc;
+  --tag-color: #b1cffa;
+  --tag-hover: #90bbf7;
   --dark-color: #021323;
   --light-color: #f4f4f4;
   --success-color: #43b243;
@@ -37,7 +38,8 @@ body {
 /*utility*/
 
 button {
-  border-radius: 0;
+  outline: none;
+  border: none;
 }
 
 button:focus {
@@ -63,7 +65,10 @@ a {
 /* Navbar */
 
 .logo {
-  font-family: 'yg-jalnan';
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: black;
 }
 
 .navbar {
@@ -83,14 +88,16 @@ a {
   line-height: 2rem;
   margin-right: 1rem;
 
-  color: rgb(82, 82, 82);
+  color: rgb(22, 22, 22);
 
-  font-weight: 600;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .navbar-links li a:hover {
   color: var(--primary-color);
+  font-weight: 500;
 }
 
 .navbar .flex {
@@ -99,10 +106,6 @@ a {
   text-align: center;
 }
 
-.logo {
-  /*color: var(--color);*/
-  font-size: 1.6rem;
-}
 
 /* main page */
 
@@ -143,21 +146,34 @@ a {
   border-radius: 20px;
 }
 
+.tag:hover {
+  transform: scale(0.99);
+  cursor: pointer;
+  background-color: var( --tag-hover);
+}
+
+/* serachbox */
+
 .search {
   height: 100px;
   position: relative;
   margin-top: 2rem;
 }
- .taghere {
-    height: 50px;
-    width: 100%;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 30px;
 
-    background-color: var( --box-color);
-    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+.taghere {
+  height: 50px;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 30px;
+
+  background-color: var( --box-color);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
+  font-size: 1rem;
 }
+
 .fa-search {
   position: absolute;
   right: 20px;
@@ -165,9 +181,8 @@ a {
   color: black;
 }
 
-.zzal:hover img {
-  transition: transform 1s;
-  filter: brightness(70%);
+.fa-search:hover {
+  cursor: pointer;
 }
 
  input[type="search"]:focus, input {outline:none;}
@@ -195,20 +210,89 @@ a {
   margin-top: 1rem;
 }
 
-.zzal {
+
+/* if img hover, show tags */
+
+.imgwrapper {
+  position: relative;
   width: 270px;
   display: flex;
   justify-content: flex-start;
-  padding-bottom: 6px;
   overflow-x: hidden;
   height: 100%;
   object-fit: contain;
 }
 
-.zzal:hover img {
-  transition: transform 1s;
-  filter: brightness(70%);
+.zzal {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
 }
+
+.tagposition {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+
+  z-index:-1;
+
+}
+
+.imgbox {
+  display: flex;
+  text-align: center;
+} 
+
+.imgtag {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+
+  margin: 0.3rem;
+  padding: 0.4rem 0.6rem 0.2rem 0.6rem;
+
+  background-color: var(--tag-hover);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+  height: 2rem;
+  border-radius: 20px;
+
+  font-size: 1rem;
+  color: black;
+  font-weight: 600;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code"; 
+  
+  z-index: -1;
+}
+
+
+.imgtag:hover {
+  transform: scale(0.98);
+  cursor: pointer;
+  background-color: var( --tag-hover);
+}
+
+.imgwrapper:hover .zzal {
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.imgwrapper:hover .tagposition {
+  opacity: 1;
+}
+
 
 /* login */
 
@@ -461,3 +545,27 @@ a {
 }
 
 /* 짤 올리기 모달 end */
+
+
+/*footer*/
+
+.footer {
+  height: 250px;
+  width: 100%;
+  margin-top: 7rem;
+
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+}
+.footer h3 {
+  margin-top: 4rem;
+  font-weight: 400;
+  font-size: 2rem;
+  word-spacing: -0.6rem;
+}
+
+
+.footer p {
+  font-size: 1rem;
+}
