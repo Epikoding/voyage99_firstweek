@@ -26,33 +26,61 @@
             alert('로그아웃!')
             window.location.href = "/"
         }
-
-        $(function () {
-
-            $("#upload-zzal").click(function () {
-                $(".modal").fadeIn();
-            });
-
-            $(".modal_content").click(function () {
-                $(".modal").fadeOut();
-            });
-
-        });
 		// 짤 올리기 모달 시작
+
         $(document).on("click", "#upload-zzal", function (e) {
+            // input text 란에 글이 남아 있음
+            // 삭제 하기 위해 공백으로 띄움
             $(".urlhere").val('');
+            // 스크롤 방지
             $('body').css('overflow', 'hidden');
+            // modal show
             $(".modal").fadeIn();
         });
 
         // 외부영역 클릭 시 팝업 닫기
         $(document).mouseup(function (e) {
+            // 전체 모달 영역을 잡아서
             let LayerPopup = $(".modal");
+            // 타겟의 길이를 가지지 않을때인데
+            // 공부할 필요가 있음
             if (LayerPopup.has(e.target).length === 0) {
                 $(".modal").fadeOut();
+                $('body').css('overflow', 'visible');
             }
         });
         // 짤 올리기 끝
+
+        // 짤올리기 URL upload
+        // OK 버튼이 눌리고 input text가 공백이 아닐 때 POST 요청
+        function upload_url(){
+            // input text에서 값을 가져옴
+            let upload_url = $('#upload_url').val();
+            let upload_tag = $('#upload_tag').val();
+
+            // URL 공백이 아닐때만 POST 요청을 보냄
+            if( upload_url != "")
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "/upload",
+                    //url: "/test",
+                    data: {
+                        url_give: upload_url,
+                        tag_give: upload_tag
+                    },
+                    success: function (response) {
+                        //alert(response["msg"])
+                    }
+                });
+            }
+            //
+            $(".modal").fadeOut();
+        }
+        // URL 란, tag란 클릭시 스크롤 방시
+        function scroll_off(){
+            $('body').css('overflow', 'hidden');
+        }
 
         // 상세정보 모달 시작
         $(document).on("click", ".zzal", function (e) {
@@ -71,6 +99,9 @@
                 $(".modal-info").fadeOut();
             }
         });
+
+
+
     </script>
 </head>
 <body>
@@ -171,7 +202,7 @@
                     <img class="upload-img" src="">
                 </div>
             </div>
-    <!--modaltag와 tag는 class가 다릅니다! --!>
+    <!--modaltag와 tag는 class가 다릅니다! -->
             <div class="modal-info-tagbox">
                 <div class="modaltag">#짱구</div>
                 <div class="modaltag">#흰둥이</div>
@@ -188,16 +219,17 @@
              title="">
             <div class="modal-title">짤 올리기</div>
             <div class="modal-url">
-                <input class="urlhere" type="text" id="" placeholder="URL 입력">
-                <i class="fa-solid fa-upload"></i>
+                <input onclick="scroll_off()" class="urlhere" type="text" id="upload_url" placeholder="URL 입력">
+                <!--<i class="fa-solid fa-upload"></i>-->
+                <input onclick="scroll_off()" class="urlhere" type="text" id="upload_tag" placeholder="태그">
             </div>
             <div class="modal-btns">
-                <button>OK</button>
-                <button>Cancel</button>
+                <button class="upload_ok" onclick="upload_url()">OK</button>
             </div>
         </div>
     </div>
-    </section>
+
+
     <section class="footer">
         <div class="container">
             <h3>Dev Team C-3</h3>
