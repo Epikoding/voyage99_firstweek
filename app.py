@@ -46,6 +46,7 @@ def home():
         login_status = 0
         return render_template('index.html', posts=posts, login_status=login_status)
 
+
 # 로그인 페이지 이동
 @app.route('/log')
 def login():
@@ -79,7 +80,7 @@ def mine():
 
 # 짤 데이터 DB에 저장
 # @app.route('/upload', methods=["POST"])
-@app.route('/upload') #중간 완성
+@app.route('/upload', methods=["POST"]) #중간 완성
 def upload():
     tag_receive = set()
     token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
