@@ -2,9 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>짤방못잃어에 로그인하세요!</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
 
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+</head>
+<script>
+    // 로그아웃 버튼 누를 시 로그아웃
+    function logout() {
+        console.log()
+        $.removeCookie('mytoken', {path: '/'})
+        alert('로그아웃!')
+        window.location.href = "/"
+    }
+</script>
+<body>
+<!-- Navbar -->
+<!-- Navbar -->
+<div class="navbar">
+    <div class="container flex">
+        <a href="/" class="logo">짤방못잃어</a>
+        <div class="navbar-links">
+            <ul>
+                <li><a id="upload-zzal">짤올리기</a></li>
+                <li><a href=/posts/mine>My짤</a></li>
+                {% if login_status == 0 %}
+                    <li><a href=/log>로그인</a></li>
+                    <li><a href=/join>회원가입</a></li>
+                {% elif login_status == 1 %}
+                    <li><a href=/editprofile>{{ user_info.id }} 님</a></li>
+                    <li><a onclick="logout()">로그아웃</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<!--main page -->
+<h1><strong>hello</strong></h1>
 </body>
 </html>
