@@ -18,6 +18,8 @@
   --error-color: #d9534f;
   --grey: rgb(211, 211, 211);
   --box-color: rgb(243, 243, 243);
+  /* 카카오톡 버튼용 색 추가 */
+  --primary-kakao-color: #fee500;
 }
 
 * {
@@ -98,7 +100,7 @@ a {
 }
 
 .logo {
-  color: var(---color);
+  /*color: var(--color);*/
   font-size: 1.6rem;
 }
 
@@ -145,8 +147,6 @@ a {
   height: 100px;
   position: relative;
   margin-top: 2rem;
-
- 
 }
  .taghere {
     height: 50px;
@@ -163,6 +163,11 @@ a {
   right: 20px;
   top: 15px;
   color: black;
+}
+
+.zzal:hover img {
+  transition: transform 1s;
+  filter: brightness(70%);
 }
 
  input[type="search"]:focus, input {outline:none;}
@@ -198,6 +203,11 @@ a {
   overflow-x: hidden;
   height: 100%;
   object-fit: contain;
+}
+
+.zzal:hover img {
+  transition: transform 1s;
+  filter: brightness(70%);
 }
 
 /* login */
@@ -251,4 +261,88 @@ a {
 .btn {
   outline: none;
   border: none;
+}
+
+
+/* Join 회원 가입 CSS*/
+.joinbox {
+  max-width: 350px;
+  margin: auto;
+  padding-top: 150px;
+}
+
+.jointext {
+  font-size: 1.7rem;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 4rem;
+}
+
+.joinbox-box {
+  margin-top: 1rem;
+}
+
+.inputbox {
+  border: none;
+  outline: none;
+  background-color: var( --box-color);
+  width: 100%;
+  height: 3rem;
+  border-radius: 10px;
+  padding: 0.3rem 0.3rem 0.3rem 1rem;
+  margin-top: 0.7rem;
+
+}
+
+.btn-primary-join {
+  width: 100%;
+  height: 3rem;
+
+  border-radius: 10px;
+  margin: 1rem 0rem 0.2rem 0rem;
+
+  text-align: center;
+  justify-content: center;
+
+  background-color: var(--primary-color);
+  color: #fff;
+
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.btn-primary-kakao {
+  width: 100%;
+  height: 3rem;
+
+  border-radius: 10px;
+  margin: 1rem 0rem 0.2rem 0rem;
+
+  text-align: center;
+  justify-content: center;
+
+  background-color: var(--primary-kakao-color);
+  color: #fff;
+
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.btn {
+  outline: none;
+  border: none;
+}
+/* Modal */
+.modal{
+  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+}
+
+.modal_content{
+  width:400px; height:200px;
+  background:#fff; border-radius:10px;
+  position:relative; top:50%; left:50%;
+  margin-top:-100px; margin-left:-200px;
+  text-align:center;
+  box-sizing:border-box; padding:74px 0;
+  line-height:23px; cursor:pointer;
 }

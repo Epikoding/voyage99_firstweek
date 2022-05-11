@@ -4,8 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>짤방못잃어</title>
-    <link rel="stylesheet" href="static/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
+
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script>
+
+        $(function () {
+
+            $("#upload-zzal").click(function () {
+                $(".modal").fadeIn();
+            });
+
+            $(".modal_content").click(function () {
+                $(".modal").fadeOut();
+            });
+
+        });
+
+        $(document).on("click", "#upload-zzal", function (e) {
+            $(".modal").fadeIn();
+        });
+
+        // 외부영역 클릭 시 팝업 닫기
+        $(document).mouseup(function (e) {
+            let LayerPopup = $(".modal");
+            if (LayerPopup.has(e.target).length === 0) {
+                $(".modal").fadeOut();
+            }
+        });
+    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -14,9 +48,11 @@
             <a href="/" class="logo">짤방못잃어</a>
             <div class="navbar-links">
                 <ul>
-                    <li><a href="">짤올리기</a></li>
-                    <li><a href="">My짤</a></li>
-                    <li><a href="login.html">로그인</a></li>
+                    <li><a id="upload-zzal">짤올리기</a></li>
+                    <li><a href=/posts/mine>My짤</a></li>
+                    <li><a href=/log>로그인</a></li>
+                    <li><a href=/join>회원가입</a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -54,7 +90,7 @@
                     <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
                     <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
 
-                
+
                 </div>  
                 <div class="line">
                     <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
@@ -69,13 +105,18 @@
                     <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
                     <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
                     <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-                </div>  
-
-
+                </div>
             </div>
-
     </div>
 
+    <!-- Modal Test -->
+    <div class="modal">
+        <div class="modal_content"
+             title="클릭하면 창이 닫힙니다.">
+            여기에 모달창 내용을 적어줍니다.<br>
+            이미지여도 좋고 글이어도 좋습니다.
+        </div>
+    </div>
 
 </body>
 </html>
