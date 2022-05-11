@@ -12,6 +12,10 @@
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
 </head>
 <script>
     // 아이디 형식 제한
@@ -30,6 +34,15 @@
     function duplicated_id_check() {
         let id = $("#input-username").val()
 
+        if (id == "") {
+            alert('아이디를 입력해주세요.')
+            $("#input-username").focus()
+            return
+
+        } else {
+            $("#input-username").text("")
+        }
+
         $.ajax({
             type: "POST",
             url: "/join/id_check",
@@ -38,27 +51,42 @@
             },
             success: function (response) {
                 if (response["exists"]) {
-                    alert("이미 존재하는 아이디입니다.")
-                    $("#input-username").text("")
+                    // alert("이미 존재하는 아이디입니다.")
+                    $("#help-id").text("이미 존재하는 아이디입니다.").addClass("is-danger")
+                } else {
+                    // alert("사용할 수 있는 아이디입니다.")
+                    $("#help-id").text("사용 가능한 아이디입니다.").removeClass("is-danger").addClass("is-safe")
                 }
             }
         })
     }
 
+
     // 회원가입 진행
     function join_in() {
         let id = $("#input-username").val()
-        let pw= $("#input-password").val()
-        let pw2= $("#input-password2").val()
+        let pw = $("#input-password").val()
+        let pw2 = $("#input-password2").val()
 
-        //회원가입 때 아이디 확인
+
+        if ($("#help-id").hasClass("is-danger")) {
+            alert("아이디를 다시 확인해주세요.")
+            return;
+        } else if ($("#help-id").hasClass("")) {
+            alert("아이디 중복확인을 해주세요.")
+            return;
+        }
+
+        //회원가입 때 아이디 및 비밀번호 확인
         if (id == "") {
             alert('아이디를 입력해주세요.')
             $("#input-username").focus()
-            return;
+            return
+
         } else {
             $("#input-username").text("")
         }
+
         if (!is_id(id)) {
             alert("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이")
         }
@@ -92,7 +120,7 @@
             },
             success: function (response) {
                 alert("회원가입을 축하드립니다!")
-                window.location.replace("/login")
+                window.location.replace("/")
             }
         })
     }
@@ -101,19 +129,19 @@
 </script>
 <body>
 <!-- Navbar -->
-    <div class="navbar">
-        <div class="container flex">
-            <a href="/" class="logo">짤방못잃어</a>
-            <div class="navbar-links">
-                <ul>
-                    <li><a href="">짤올리기</a></li>
-                    <li><a href=/posts/mine>My짤</a></li>
-                    <li><a href=/log>로그인</a></li>
-                    <li><a href=/join>회원가입</a></li>
-                </ul>
-            </div>
+<div class="navbar">
+    <div class="container flex">
+        <a href="/" class="logo">짤방못잃어</a>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="">짤올리기</a></li>
+                <li><a href=/posts/mine>My짤</a></li>
+                <li><a href=/log>로그인</a></li>
+                <li><a href=/join>회원가입</a></li>
+            </ul>
         </div>
     </div>
+</div>
 </div>
 <!--main page -->
 <div class="container main">
@@ -123,22 +151,21 @@
         <div class="joinbox-box">
             <h3>아이디</h3>
             <input TYPE="text" placeholder="아이디" class="inputbox" id="input-username">
+            <button type="submit" class="btn btn-primary-join" onclick="duplicated_id_check()">중복확인</button>
+            <p id="help-id">영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이</p>
         </div>
 
         <div class="joinbox-box">
             <h3>비밀번호</h3>
-            <input TYPE="text" placeholder="비밀번호" class="inputbox" id="input-password">
+            <input TYPE="password" placeholder="비밀번호" class="inputbox" id="input-password">
+            <p>영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자</p>
         </div>
         <div class="joinbox-box">
             <h3>비밀번호 확인</h3>
-            <input TYPE="text" placeholder="비밀번호 확인" class="inputbox" id="input-password2">
-        </div>
-        <div class="joinbox-box">
-            <h3>닉네임</h3>
-            <input TYPE="text" placeholder="닉네임" class="inputbox">
+            <input TYPE="password" placeholder="비밀번호 확인" class="inputbox" id="input-password2">
         </div>
         <div class="join-buttons">
-            <button type="submit" class="btn btn-primary-join" onclick="duplicated_id_check(); join_in();">확인</button>
+            <button type="submit" class="btn btn-primary-join" onclick="join_in()">확인</button>
             <button type="submit" class="btn btn-primary-join" id="" onclick="location.href='index.html'">취소</button>
             <button type="submit" class="btn btn-primary-kakao" id="">카카오톡으로 회원가입</button>
         </div>
