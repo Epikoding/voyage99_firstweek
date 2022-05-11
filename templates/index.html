@@ -65,15 +65,15 @@
                 $.ajax({
                     type: "POST",
                     url: "/upload",
-                    //url: "/test",
                     data: {
                         url_give: upload_url,
                         tag_give: upload_tag
                     },
                     success: function (response) {
-                        //alert(response["msg"])
+                        alert("업로드 완료")
+                        window.location.replace("/")
                     }
-                });
+                })
             }
             //
             $(".modal").fadeOut();
@@ -104,113 +104,114 @@
     </script>
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="container flex">
-            <a href="/" class="logo">짤방못잃어</a>
-            <div class="navbar-links">
-                <ul>
-                    <li><a id="upload-zzal">짤올리기</a></li>
-                    <li><a href=/posts/mine>My짤</a></li>
-                    {% if login_status == 0 %}
-                        <li><a href=/log>로그인</a></li>
-                        <li><a href=/join>회원가입</a></li>
-                    {% elif login_status == 1 %}
-                        <li><a href=/log>{{ user_info.id }} 님</a></li>
-                        <li><a onclick="logout()">로그아웃</a></li>
-                    {% endif %}
-                </ul>
-            </div>
+<!-- Navbar -->
+<div class="navbar">
+    <div class="container flex">
+        <a href="/" class="logo">짤방못잃어</a>
+        <div class="navbar-links">
+            <ul>
+                <li><a id="upload-zzal">짤올리기</a></li>
+                <li><a href=/posts/mine>My짤</a></li>
+                {% if login_status == 0 %}
+                    <li><a href=/log>로그인</a></li>
+                    <li><a href=/join>회원가입</a></li>
+                {% elif login_status == 1 %}
+                    <li><a href=/log>{{ user_info.id }} 님</a></li>
+                    <li><a onclick="logout()">로그아웃</a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
-    <!--main page -->
-    <section class="container main">
-        <!--tagbox -->
-        <div class="tagbox">
-            <div class="tag">#짱구</div>
-            <div class="tag">#무한도전</div>
-            <div class="tag">#퇴사각</div>
-            <div class="tag">#meme</div>
-            <div class="tag">#동물짤</div>
-            <div class="tag">#커밋</div>
-            <div class="tag">#배고파</div>
-        </div>
+</div>
+<!--main page -->
+<section class="container main">
+    <!--tagbox -->
+    <div class="tagbox">
+        <div class="tag">#짱구</div>
+        <div class="tag">#무한도전</div>
+        <div class="tag">#퇴사각</div>
+        <div class="tag">#meme</div>
+        <div class="tag">#동물짤</div>
+        <div class="tag">#커밋</div>
+        <div class="tag">#배고파</div>
+    </div>
 
-        <div class="search">
-            <input class="taghere" type="text" id="" placeholder="짤검색하기!">
-            <i class="fas fa-search" id="" onclick=""></i>
-        </div>
+    <div class="search">
+        <input class="taghere" type="text" id="" placeholder="짤검색하기!">
+        <i class="fas fa-search" id="" onclick=""></i>
+    </div>
 
-        <div class="grid">
-            {% for i in range(4) %}
-                <div class="line">
-                    {% for post in posts[i] %}
-                        <div class="imgwrapper" onclick="">
-                            <img class="zzal" src="{{ post.url }}">
-                            <div class="tagposition">
-                                <div class="imgtagbox" id="">
-                                    {% for tag in post.tag %}
-                                        <button class="imgtag" id="">{{ tag }}</button>
-                                    {% endfor %}
-                                </div>
+    <div class="grid">
+        {% for i in range(4) %}
+            <div class="line">
+                {% for post in posts[i] %}
+                    <div class="imgwrapper" onclick="">
+                        <img class="zzal" src="{{ post.url }}">
+                        <div class="tagposition">
+                            <div class="imgtagbox" id="">
+                                {% for tag in post.tag %}
+                                    <button class="imgtag" id="">{{ tag }}</button>
+                                {% endfor %}
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-    </section>
-    <!-- 상세정보 모달 HTML-->
-    <div class="modal-info">
-        <div class="modal-info-content">
-            <div class="modal-info-none-tag-items">
-                <div class="modal-info-icons">
-                    <div class="leftside">
-                        <p class="clicknum"> 조회수: </p>
                     </div>
-                    <div class="rightside">
-                        <i class="fa-solid fa-heart"></i>
-                        <i class="fa-regular fa-heart"></i>
-                        <i class="fa-solid fa-upload"></i>
-                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</section>
+<!-- 상세정보 모달 HTML-->
+<div class="modal-info">
+    <div class="modal-info-content">
+        <div class="modal-info-none-tag-items">
+            <div class="modal-info-icons">
+                <div class="leftside">
+                    <p class="clicknum"> 조회수: </p>
                 </div>
-                <div class="modal-info-img">
-                    <img class="upload-img" src="">
+                <div class="rightside">
+                    <i class="fa-solid fa-heart"></i>
+                    <i class="fa-regular fa-heart"></i>
+                    <i class="fa-solid fa-upload"></i>
                 </div>
-                <!--modaltag와 tag는 class가 다릅니다! -->
-                <div class="modal-info-tagbox">
-                    <div class="modaltag">#짱구</div>
-                    <div class="modaltag">#흰둥이</div>
-                    <div class="modaltag">#집에갈래</div>
-                    <div class="modaltag">#퇴사</div>
-                    <div class="modaltag">#짱구</div>
-                    <div class="modaltag">#흰둥이</div>
-                </div>
+            </div>
+            <div class="modal-info-img">
+                <img class="upload-img" src="">
+            </div>
+            <!--modaltag와 tag는 class가 다릅니다! -->
+            <div class="modal-info-tagbox">
+                <div class="modaltag">#짱구</div>
+                <div class="modaltag">#흰둥이</div>
+                <div class="modaltag">#집에갈래</div>
+                <div class="modaltag">#퇴사</div>
+                <div class="modaltag">#짱구</div>
+                <div class="modaltag">#흰둥이</div>
             </div>
         </div>
     </div>
-    <!-- 짤 올리기 모달 HTML -->
-    <div class="modal">
-        <div class="modal_content"
-             title="">
-            <div class="modal-title">짤 올리기</div>
-            <div class="modal-url">
-                <input onclick="scroll_off()" class="urlhere" type="text" id="upload_url" placeholder="URL 입력">
-                <!--<i class="fa-solid fa-upload"></i>-->
-                <input onclick="scroll_off()" class="urlhere" type="text" id="upload_tag" placeholder="태그">
-            </div>
-            <div class="modal-btns">
-                <button class="upload_ok" onclick="upload_url()">OK</button>
-            </div>
+</div>
+<!-- 짤 올리기 모달 HTML -->
+<div class="modal">
+    <div class="modal_content"
+         title="">
+        <div class="modal-title">짤 올리기</div>
+        <div class="modal-url">
+            <input onclick="scroll_off()" class="urlhere" type="text" id="upload_url" placeholder="URL 입력">
+            <!--<i class="fa-solid fa-upload"></i>-->
+            <input onclick="scroll_off()" class="urlhere" type="text" id="upload_tag" placeholder="태그">
+        </div>
+        <div class="modal-btns">
+            <button class="upload_ok" onclick="upload_url()">OK</button>
+            <div>태그 구분은 쉼료로 해주세요. (예시: 짤방, 못잃어)</div>
         </div>
     </div>
+</div>
 
 
-    <section class="footer">
-        <div class="container">
-            <h3>Dev Team C-3</h3>
-            <p>&#128073 이동재 김민수 한지용 권지은 &#128072 </p>
-        </div>
-    </section>
+<section class="footer">
+    <div class="container">
+        <h3>Dev Team C-3</h3>
+        <p>&#128073 이동재 김민수 한지용 권지은 &#128072 </p>
+    </div>
+</section>
 </body>
 </html>
