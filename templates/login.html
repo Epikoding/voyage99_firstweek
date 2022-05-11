@@ -1,16 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- Webpage Title -->
-    <title>Log In | SWEETER</title>
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>짤방못잃어에 로그인하세요!</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
 
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
     <!-- Font Awesome CSS -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -18,95 +18,94 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-    <script>
-
-
-
-    </script>
-    <style>
-        body {
-            background-color: RGBA(232, 52, 78, 0.2);
-            min-height: 100vh;
-        }
-
-        .section {
-            padding: 1rem 1.5rem;
-            max-width: 750px;
-            margin: auto;
-        }
-
-        .title {
-            font-weight: 800;
-            font-size: 5rem;
-        }
-
-        .subtitle {
-            font-size: 2rem;
-        }
-
-        .is-sparta {
-            color: #e8344e !important;
-        }
-
-        .button.is-sparta {
-            background-color: #e8344e;
-            border-color: transparent;
-            color: #fff !important;
-        }
-
-        .button.is-sparta.is-outlined {
-            background-color: transparent;
-            border-color: #e8344e;
-            color: #e8344e !important;
-        }
-
-        .help {
-            color: gray;
-        }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
+<script>
+    function log_in() {
+        // 변수선언
+        let id = $("#input-username").val()
+        let pw = $("#input-password").val()
+
+        //상기 변수의 강조 효과
+        if (id == "") {
+            alert('아이디를 입력해주세요.')
+            $("#input-username").focus()
+            return;
+        } else {
+            $("#input-username").text("")
+        }
+
+        if (pw == "") {
+            alert('비밀번호를 입력해주세요.')
+            $("#input-password").focus()
+            return;
+        } else {
+            $("#input-password").text("")
+        }
+
+        // ajax 콜 app.py로 전송 및 로그인 진행
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: {
+                id_give: id,
+                pw_give: pw
+            },
+
+            success: function (response) {
+                // console.log('성공')
+                if (response['result'] == 'success') {
+                    $.cookie('mytoken', response['token'], {path: '/'});
+                    alert(response['msg'])
+                    window.location.replace("/")
+                } else {
+                    alert(response['msg'])
+                }
+            }
+        })
+    }
+
+
+</script>
 <body>
-<section class="hero is-white">
-    <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
-        <h1 class="title is-sparta">로그인은 못참지 🙈</h1>
-    </div>
-</section>
-<section class="section">
-    <div class="container">
-        <div class="box" style="max-width: 480px;margin:auto">
-            <article class="media">
-                <div class="media-content">
-                    <div class="content">
-                        <div class="field has-addons">
-                            <div class="control has-icons-left" style="width:100%">
-                                <input id="input-username" class="input" type="text" placeholder="아이디">
-                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input id="input-password" class="input" type="password" placeholder="비밀번호">
-                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="div-sign-in-or-up" class="has-text-centered">
-                        <nav class="level is-mobile">
-                            <button class="level-item button is-sparta" onclick="sign_in()">
-                                로그인
-                            </button>
-                        </nav>
-                        <hr>
-                        <h4 class="mb-3">아직 회원이 아니라면?</h4>
-                        <nav class="level is-mobile">
-                            <button class="level-item button is-sparta is-outlined" onclick="location.href='join.html'">회원가입하기</button>
-                        </nav>
-                    </div>
-                </div>
-            </article>
+<!-- Navbar -->
+    <div class="navbar">
+        <div class="container flex">
+            <a href="/" class="logo">짤방못잃어</a>
+            <div class="navbar-links">
+                <ul>
+                    <li><a href="">짤올리기</a></li>
+                    <li><a href=/posts/mine>My짤</a></li>
+                    <li><a href=/log>로그인</a></li>
+                    <li><a href=/join>회원가입</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</section>
+</div>
+<!--main page -->
+    <div class="container main">
+        <!--login box -->
+        <div class="loginbox">
+            <div class="logintext">로그인</div>
+
+            <div class="loginbox-box">
+                <h3>아이디</h3>
+                <input TYPE="text" placeholder="아이디" class="inputbox" id="input-username">
+            </div>
+            <div class="loginbox-box">
+                <h3>비밀번호</h3>
+                <input TYPE="text" placeholder="비밀번호" class="inputbox" id="input-password">
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="">로그인</button>
+            <button type="submit" class="btn btn-primary-kakao" id="">카카오톡으로 로그인</button>
+        </div>
+
+        <button onclick="log_in()" type="submit" class="btn btn-primary" id="">로그인</button>
+    </div>
+</div>
+
 </body>
 </html>
-
