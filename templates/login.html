@@ -6,7 +6,9 @@
     <title>짤방못잃어에 로그인하세요!</title>
 
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
 
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -17,6 +19,7 @@
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -66,45 +69,61 @@
         })
     }
 
-
+    window.Kakao.init("d1d27e902883604d76750bd6e945eb64");
+    function kakaoLogin() {
+        window.Kakao.Auth.login({
+            scope: 'profile_nickname, account_email',
+            success: function (authObj) {   // 토큰?
+                console.log(authObj);
+                window.Kakao.API.request({
+                    url: '/v2/user/me',
+                    success: function (response) {
+                        const kakao_accoutn = response.kakao_account;
+                        console.log(kakao_accoutn['profile']['nickname']); //nick
+                        console.log(kakao_accoutn['email']);    //email
+                    }
+                })
+            }
+        });
+    }
 </script>
 <body>
 <!-- Navbar -->
-    <div class="navbar">
-        <div class="container flex">
-            <a href="/" class="logo">짤방못잃어</a>
-            <div class="navbar-links">
-                <ul>
-                    <li><a href="">짤올리기</a></li>
-                    <li><a href=/posts/mine>My짤</a></li>
-                    <li><a href=/log>로그인</a></li>
-                    <li><a href=/join>회원가입</a></li>
-                </ul>
-            </div>
+<div class="navbar">
+    <div class="container flex">
+        <a href="/" class="logo">짤방못잃어</a>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="">짤올리기</a></li>
+                <li><a href=/posts/mine>My짤</a></li>
+                <li><a href=/log>로그인</a></li>
+                <li><a href=/join>회원가입</a></li>
+            </ul>
         </div>
     </div>
 </div>
+</div>
 <!--main page -->
-    <div class="container main">
-        <!--login box -->
-        <div class="loginbox">
-            <div class="logintext">로그인</div>
+<div class="container main">
+    <!--login box -->
+    <div class="loginbox">
+        <div class="logintext">로그인</div>
 
-            <div class="loginbox-box">
-                <h3>아이디</h3>
-                <input TYPE="text" placeholder="아이디" class="inputbox" id="input-username">
-            </div>
-            <div class="loginbox-box">
-                <h3>비밀번호</h3>
-                <input TYPE="text" placeholder="비밀번호" class="inputbox" id="input-password">
-            </div>
-
-            <button type="submit" class="btn btn-primary" id="">로그인</button>
-            <button type="submit" class="btn btn-primary-kakao" id="">카카오톡으로 로그인</button>
+        <div class="loginbox-box">
+            <h3>아이디</h3>
+            <input TYPE="text" placeholder="아이디" class="inputbox" id="input-username">
+        </div>
+        <div class="loginbox-box">
+            <h3>비밀번호</h3>
+            <input TYPE="text" placeholder="비밀번호" class="inputbox" id="input-password">
         </div>
 
-        <button onclick="log_in()" type="submit" class="btn btn-primary" id="">로그인</button>
+        <button type="submit" class="btn btn-primary" id="">로그인</button>
+        <button type="submit" class="btn btn-primary-kakao" onclick="kakaoLogin()">카카오톡으로 로그인</button>
     </div>
+
+    <button onclick="log_in()" type="submit" class="btn btn-primary" id="">로그인</button>
+</div>
 </div>
 
 </body>

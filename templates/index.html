@@ -14,7 +14,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     <script>
+        // 로그아웃 버튼 누를 시 로그아웃
+        function logout() {
+            console.log()
+            $.removeCookie('mytoken', {path: '/'})
+            alert('로그아웃!')
+            window.location.href = "/"
+        }
 
         $(function () {
 
@@ -43,80 +52,100 @@
 </head>
 <body>
 <!-- Navbar -->
-    <div class="navbar">
-        <div class="container flex">
-            <a href="/" class="logo">짤방못잃어</a>
-            <div class="navbar-links">
-                <ul>
-                    <li><a id="upload-zzal">짤올리기</a></li>
-                    <li><a href=/posts/mine>My짤</a></li>
+<div class="navbar">
+    <div class="container flex">
+        <a href="/" class="logo">짤방못잃어</a>
+        <div class="navbar-links">
+            <ul>
+                <li><a id="upload-zzal">짤올리기</a></li>
+                <li><a href=/posts/mine>My짤</a></li>
+                {% if login_status == 0 %}
                     <li><a href=/log>로그인</a></li>
                     <li><a href=/join>회원가입</a></li>
-                </ul>
-            </div>
+                {% elif login_status == 1 %}
+                    <li><a href=/log>{{ user_info.id }} 님</a></li>
+                    <li><a onclick="logout()">로그아웃</a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
+</div>
 <!--main page -->
-    <div class="container main">
-            <!--tagbox -->
-            <div class="tagbox">
-                <div class="tag">#태그이름</div>
-                <div class="tag">#짱구</div>
-                <div class="tag">#짱구</div>
-                <div class="tag">#짱구</div>
-                <div class="tag">#짱구</div>
-                <div class="tag">#짱구</div>
-                <div class="tag">#짱구</div>
-                <div class="tag">#짱구</div>
-            </div>
-
-            <div class="search">
-                <input class="taghere" type="text" id="" placeholder="짤검색하기!">
-                <i class="fas fa-search"></i>
-            </div>
-
-            <div class="grid">
-                <div class="line">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
-                    <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
-                </div>   
-                <div class="line">
-                    <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
-                    <img class="zzal" src="http://rgo4.com/files/attach/images/149/417/090/010/b842b0d44b2cd4d8818f390d9bc11390.jpg">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAyMTA4MDJfMjIz/MDAxNjI3ODg2MDIxOTI1.greeD08N2pjW57OHMCq_pA0fuPi7ABuc_cHieHo5d2wg.UktlVqZ7-KLwY2ySGXUP41YwKrF-fnAITQBSlXJW14Eg.JPEG.qkrthmgl1234/3472451071425418529_20210802125902649.JPG?type=w800">
-                    <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-
-
-                </div>  
-                <div class="line">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAyMTA4MDJfMjIz/MDAxNjI3ODg2MDIxOTI1.greeD08N2pjW57OHMCq_pA0fuPi7ABuc_cHieHo5d2wg.UktlVqZ7-KLwY2ySGXUP41YwKrF-fnAITQBSlXJW14Eg.JPEG.qkrthmgl1234/3472451071425418529_20210802125902649.JPG?type=w800">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxOTAxMDNfMjI5/MDAxNTQ2NDkwMzg3Nzcw.vRyfzhvIusy3eWk9g0Knhe7kRVsRym-DyrosRd3h7Y4g.NBqWitQRid77lKBdaUsHeACCmVVuDTHdqGozgju2tGog.JPEG.dkfxks7/P20190103_115617468_9B33ADCD-4D8A-41B8-9C94-CE3380353F20.JPG?type=w800">
-                    <img class="zzal" src="https://blog.kakaocdn.net/dn/cYMGgX/btqK6OgBlF4/kXrjctpmBgH1WDGsnJeD1K/img.png">
-
-                </div>  
-                <div class="line">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
-                    <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-                </div>
-            </div>
+<div class="container main">
+    <!--tagbox -->
+    <div class="tagbox">
+        <div class="tag">#태그이름</div>
+        <div class="tag">#짱구</div>
+        <div class="tag">#짱구</div>
+        <div class="tag">#짱구</div>
+        <div class="tag">#짱구</div>
+        <div class="tag">#짱구</div>
+        <div class="tag">#짱구</div>
+        <div class="tag">#짱구</div>
     </div>
 
-    <!-- Modal Test -->
-    <div class="modal">
-        <div class="modal_content"
-             title="클릭하면 창이 닫힙니다.">
-            여기에 모달창 내용을 적어줍니다.<br>
-            이미지여도 좋고 글이어도 좋습니다.
+    <div class="search">
+        <input class="taghere" type="text" id="" placeholder="짤검색하기!">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <div class="grid">
+        <div class="line">
+            <img class="zzal"
+                 src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
+            <img class="zzal"
+                 src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
+            <img class="zzal"
+                 src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
+            <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
+            <img class="zzal"
+                 src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
+        </div>
+        <div class="line">
+            <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
+            <img class="zzal"
+                 src="http://rgo4.com/files/attach/images/149/417/090/010/b842b0d44b2cd4d8818f390d9bc11390.jpg">
+            <img class="zzal"
+                 src="https://mblogthumb-phinf.pstatic.net/MjAyMTA4MDJfMjIz/MDAxNjI3ODg2MDIxOTI1.greeD08N2pjW57OHMCq_pA0fuPi7ABuc_cHieHo5d2wg.UktlVqZ7-KLwY2ySGXUP41YwKrF-fnAITQBSlXJW14Eg.JPEG.qkrthmgl1234/3472451071425418529_20210802125902649.JPG?type=w800">
+            <img class="zzal"
+                 src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
+            <img class="zzal"
+                 src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
+
+
+        </div>
+        <div class="line">
+            <img class="zzal"
+                 src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
+            <img class="zzal"
+                 src="https://mblogthumb-phinf.pstatic.net/MjAyMTA4MDJfMjIz/MDAxNjI3ODg2MDIxOTI1.greeD08N2pjW57OHMCq_pA0fuPi7ABuc_cHieHo5d2wg.UktlVqZ7-KLwY2ySGXUP41YwKrF-fnAITQBSlXJW14Eg.JPEG.qkrthmgl1234/3472451071425418529_20210802125902649.JPG?type=w800">
+            <img class="zzal"
+                 src="https://mblogthumb-phinf.pstatic.net/MjAxOTAxMDNfMjI5/MDAxNTQ2NDkwMzg3Nzcw.vRyfzhvIusy3eWk9g0Knhe7kRVsRym-DyrosRd3h7Y4g.NBqWitQRid77lKBdaUsHeACCmVVuDTHdqGozgju2tGog.JPEG.dkfxks7/P20190103_115617468_9B33ADCD-4D8A-41B8-9C94-CE3380353F20.JPG?type=w800">
+            <img class="zzal" src="https://blog.kakaocdn.net/dn/cYMGgX/btqK6OgBlF4/kXrjctpmBgH1WDGsnJeD1K/img.png">
+
+        </div>
+        <div class="line">
+            <img class="zzal"
+                 src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
+            <img class="zzal"
+                 src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
+            <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
+            <img class="zzal"
+                 src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
+            <img class="zzal"
+                 src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
         </div>
     </div>
+</div>
+
+<!-- Modal Test -->
+<div class="modal">
+    <div class="modal_content"
+         title="클릭하면 창이 닫힙니다.">
+        여기에 모달창 내용을 적어줍니다.<br>
+        이미지여도 좋고 글이어도 좋습니다.
+    </div>
+</div>
 
 </body>
 </html>
