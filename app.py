@@ -7,16 +7,31 @@ from datetime import datetime, timedelta
 
 ca = certifi.where()
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
+#client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
 # client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
+client = MongoClient('mongodb+srv://test:sparta@cluster0.hew4w.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #지용
+db = client.dbsparta
 
-db = client.dbfirstweek
+#db = client.dbfirstweek
 app = Flask(__name__)
 
 # 비밀 키 설정
 SECRET_KEY = 'SPARTA'
 # page 구분선 =========================================================================================
+#테스트
+@app.route('/test', methods=["POST"])
+def test():
+    url_receive = request.form['url_give']
+    tag_receive = request.form['tag_give']
+    print(url_receive, tag_receive)
 
+    doc = {
+        'url': url_receive,
+        'tag': tag_receive,
+    }
+    db.zzal.insert_one(doc)
+
+    return jsonify({'msg': '등록 완료!'})
 
 # main 페이지 호출
 @app.route('/')
@@ -49,6 +64,7 @@ def home():
     else:
         login_status = 0
         return render_template('index.html', posts=posts, login_status=login_status)
+
 
 # 로그인 페이지 이동
 @app.route('/log')
@@ -83,7 +99,7 @@ def mine():
 
 # 짤 데이터 DB에 저장
 # @app.route('/upload', methods=["POST"])
-@app.route('/upload') #중간 완성
+@app.route('/upload', methods=["POST"]) #중간 완성
 def upload():
     tag_receive = set()
 
