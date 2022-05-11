@@ -211,13 +211,28 @@ def sign_up():
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
-
+# 회원가입 시 db에 가서 아이디가 있는지 확인
 @app.route('/join/id_check', methods=['POST'])
 def id_check():
     id_receive = request.form['id_give']
     exists = bool(db.users.find_one({"id": id_receive}))
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
+
+
+# 로그인 시 ~님 클릭할 수 있으며 본인 계정 설정 변경할 수 있음. 다만 정말로 비밀번호 바꾸게 변경할 수 있게 하지는 않음.
+@app.route('/editprofile')
+def editprofile():
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+        login_status = 1
+        return render_template('editprofile.html', user_info=user_info, login_status=login_status)
+    else:
+        login_status = 0
+        return render_template('editprofile.html', login_status=login_status)
+
 
 
 # =========================================================================================
