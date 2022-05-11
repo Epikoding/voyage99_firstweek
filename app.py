@@ -69,8 +69,20 @@ def mine():
         posts_list = user_info['post_num']  # user 데이터에 저장된 짤 번호 리스트 불러오기
 
         posts = list()  # mine.html 전달용 짤 저장 리스트 선언
+        post_list = list()
+
         for post in posts_list: # user가 찜해둔 짤 하나씩 가져 오기 ( mongodb query 문을 통한 한번에 작업 방법 스터디 필요! )
-            posts.append(db.posts.find_one({'post_num': post}))  # DB posts collection 에서 짤 데이터 불러 오기
+            post_list.append(db.posts.find_one({'post_num': post}))  # DB posts collection 에서 짤 데이터 불러 오기
+            print(post_list)
+        temp_posts = list()
+        amount = len(post_list)
+        for i in range(amount):
+            temp_posts.append(post_list[i])
+            if len(temp_posts) == (amount // 4):
+                posts.append(temp_posts)
+                temp_posts = list()
+        if temp_posts:
+            posts.append(temp_posts)
 
         login_status = 1  # 로그인 판벌(bool 사용 해봐도 될듯)
         return render_template('mine.html', posts=posts, puser_info=user_info, login_status=login_status)

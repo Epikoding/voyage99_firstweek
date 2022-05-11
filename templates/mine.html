@@ -6,6 +6,7 @@
     <title>짤방못잃어</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
 </head>
 <body>
 <!-- Navbar -->
@@ -25,39 +26,23 @@
 <!--main page -->
     <div class="container main">
             <div class="grid">
+            {% for i in range(4) %}
                 <div class="line">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
-                    <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
+                    {% for post in posts[i] %}
+                        <div class="imgwrapper" onclick="">
+                            <img class="zzal" src="{{ post.url }}">
+                            <div class="tagposition">
+                                <div class="imgtagbox" id="">
+                                    {% for tag in post.tag %}
+                                        <button class="imgtag" id="">{{ tag }}</button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="line">
-                    <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
-                    <img class="zzal" src="http://rgo4.com/files/attach/images/149/417/090/010/b842b0d44b2cd4d8818f390d9bc11390.jpg">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAyMTA4MDJfMjIz/MDAxNjI3ODg2MDIxOTI1.greeD08N2pjW57OHMCq_pA0fuPi7ABuc_cHieHo5d2wg.UktlVqZ7-KLwY2ySGXUP41YwKrF-fnAITQBSlXJW14Eg.JPEG.qkrthmgl1234/3472451071425418529_20210802125902649.JPG?type=w800">
-                    <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-
-
-                </div>
-                <div class="line">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAyMTA4MDJfMjIz/MDAxNjI3ODg2MDIxOTI1.greeD08N2pjW57OHMCq_pA0fuPi7ABuc_cHieHo5d2wg.UktlVqZ7-KLwY2ySGXUP41YwKrF-fnAITQBSlXJW14Eg.JPEG.qkrthmgl1234/3472451071425418529_20210802125902649.JPG?type=w800">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxOTAxMDNfMjI5/MDAxNTQ2NDkwMzg3Nzcw.vRyfzhvIusy3eWk9g0Knhe7kRVsRym-DyrosRd3h7Y4g.NBqWitQRid77lKBdaUsHeACCmVVuDTHdqGozgju2tGog.JPEG.dkfxks7/P20190103_115617468_9B33ADCD-4D8A-41B8-9C94-CE3380353F20.JPG?type=w800">
-                    <img class="zzal" src="https://blog.kakaocdn.net/dn/cYMGgX/btqK6OgBlF4/kXrjctpmBgH1WDGsnJeD1K/img.png">
-
-                </div>
-                <div class="line">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-                    <img class="zzal" src="https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800">
-                    <img class="zzal" src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg">
-                    <img class="zzal" src="https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg">
-                    <img class="zzal" src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/10/30/85f2cb5f-44f8-4f2f-a813-63e657e11acc_5065cac7.jpg?itok=gY-K9HdU&v=1635566576">
-                </div>
-
-
-            </div>
+            {% endfor %}
+        </div>
 
     </div>
 
