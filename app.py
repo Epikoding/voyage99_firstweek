@@ -82,20 +82,12 @@ def mine():
 @app.route('/upload') #중간 완성
 def upload():
     tag_receive = set()
+    token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-    # 테스트용 자료 삽입 ==============================
-    id_receive = "test13"
-    tag_receive.add("개발13")
-    tag_receive.add("내코드13")
-    tag_receive.add("코린이13")
-    # url_receive = "https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800"
-    url_receive = "https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg"
-    # url_receive = "https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg"
-    # 테스트용 자료 삽입 ==============================
-
-    # id_receive = request.form['id_give']    # 쿠키로 받아도 될듯
-    # tag_receive.add(request.form['tag_give'])
-    # url_receive = request.form['url_give']
+    id_receive = payload["id"]    # 쿠키로 받아도 될듯
+    tag_receive.add(request.form['tag_give'])   # 클라에서 받아오는 값
+    url_receive = request.form['url_give']      # 클라에서 받아오는 값
     hit_receive = 0
     like_receive = 0
     today = datetime.now()   # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
@@ -104,8 +96,6 @@ def upload():
     post_list = list(db.posts.find({}, {'_id': False}))
 
     tag_receive = list(tag_receive)  # 임시로 set타입을 list 타입으로 변환 / mongodb or dict 에 set타입 오류 발견됨
-    print(tag_receive)
-
 
     if len(post_list) == 0:
         post_num = 1
