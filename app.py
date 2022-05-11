@@ -44,6 +44,7 @@ def home():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload["id"]})    # DB users collection 에서 user 데이터 불러 오기
         login_status = 1  # 로그인 판벌(bool 사용 해봐도 될듯)
+        print("indexpage: ", "payload: ", payload, ", token_receive: ", token_receive, ", SECRET_KEY: ", SECRET_KEY, ", user_info: ", user_info, ', payload["id"]: ', payload["id"])
         return render_template('index.html', posts=posts, user_info=user_info, login_status=login_status)
     else:
         login_status = 0
@@ -210,6 +211,7 @@ def sign_in():
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        print("login: ", "payload: ", payload, "token: ", token)
         return jsonify({'result': 'success', 'token': token, 'msg': '환영합니다.'})
     # 동일한 유저가 없으면, 결과 -> 실패, 다시 로그인.
     else:
