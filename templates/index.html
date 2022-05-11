@@ -88,7 +88,7 @@
                     <li><a href=/log>로그인</a></li>
                     <li><a href=/join>회원가입</a></li>
                 {% elif login_status == 1 %}
-                    <li><a href=/editprofile>{{ user_info.id }} 님</a></li>
+                    <li><a href=/log>{{ user_info.id }} 님</a></li>
                     <li><a onclick="logout()">로그아웃</a></li>
                 {% endif %}
             </ul>
