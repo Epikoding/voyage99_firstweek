@@ -25,17 +25,14 @@ def home():
     post_list = list(db.posts.find({}, {'_id': False}).sort('post_num', -1))  # DB posts collection 에서 짤 데이터 불러 오기
 
     posts = list()  # client 전달용 list 변수 선언
-    # posts 재정렬 (기존 리스트를 4개의 요소 단위로 묶은 리스트로 변경)
-    # e.g.  [1, 2, 3, 4, 5, 6, 7, 8, 9] => [[1, 2, 3, 4], [5, 6, 7, 8], [9]]
+    # posts 재정렬 (기존 리스트를 4개의 묶음 리스트로 변경)
     temp_posts = list()
-    for post in post_list:
-        if len(temp_posts) == 4:
-            temp_posts = list()
-        if post_list.index(post) % 4 != 3:
-            temp_posts.append(post)
-        else:
-            temp_posts.append(post)
+    amount = len(post_list)
+    for i in range(amount):
+        temp_posts.append(post_list[i])
+        if len(temp_posts) == (amount // 4):
             posts.append(temp_posts)
+            temp_posts = list()
     if temp_posts:
         posts.append(temp_posts)
 
@@ -44,7 +41,6 @@ def home():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload["id"]})    # DB users collection 에서 user 데이터 불러 오기
         login_status = 1  # 로그인 판벌(bool 사용 해봐도 될듯)
-        print("indexpage: ", "payload: ", payload, ", token_receive: ", token_receive, ", SECRET_KEY: ", SECRET_KEY, ", user_info: ", user_info, ', payload["id"]: ', payload["id"])
         return render_template('index.html', posts=posts, user_info=user_info, login_status=login_status)
     else:
         login_status = 0
@@ -87,9 +83,19 @@ def mine():
 def upload():
     tag_receive = set()
 
-    id_receive = request.form['id_give']    # 쿠키로 받아도 될듯
-    tag_receive.add(request.form['tag_give'])
-    url_receive = request.form['url_give']
+    # 테스트용 자료 삽입 ==============================
+    id_receive = "test13"
+    tag_receive.add("개발13")
+    tag_receive.add("내코드13")
+    tag_receive.add("코린이13")
+    # url_receive = "https://mblogthumb-phinf.pstatic.net/MjAxNzAxMTlfMTU1/MDAxNDg0ODE0NzQ2ODYy.FI39syRS9iOfd5uoCH6bP2JJnxt0960S2vpo2bfjulog.X-4Q-dnKE5N2A6EfRwpvfhA1ZGCxb8S8m4GVTJew6VEg.JPEG.cosl922/d6645e47-511c-447e-a7c5-74c603619348.jpg?type=w800"
+    url_receive = "https://dimg.donga.com/wps/NEWS/IMAGE/2021/02/03/105264221.3.jpg"
+    # url_receive = "https://lolalambchops.com/wp/wp-content/uploads/2020/11/2021-Thanksgiving-Memes.jpeg"
+    # 테스트용 자료 삽입 ==============================
+
+    # id_receive = request.form['id_give']    # 쿠키로 받아도 될듯
+    # tag_receive.add(request.form['tag_give'])
+    # url_receive = request.form['url_give']
     hit_receive = 0
     like_receive = 0
     today = datetime.now()   # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
@@ -99,6 +105,7 @@ def upload():
 
     tag_receive = list(tag_receive)  # 임시로 set타입을 list 타입으로 변환 / mongodb or dict 에 set타입 오류 발견됨
     print(tag_receive)
+
 
     if len(post_list) == 0:
         post_num = 1
