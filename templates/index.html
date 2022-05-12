@@ -1,88 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>짤방못잃어</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-          crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://unpkg.com/@kfonts/neodgm-code/index.css"/>
-    <!-- Fa solid icon 적용 cDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <!-- Jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>짤방못잃어</title>
 
-    <script>
-        // 로그아웃 버튼 누를 시 로그아웃
-        function logout() {
-            console.log()
-            $.removeCookie('mytoken', {path: '/'})
-            alert('로그아웃!')
-            window.location.href = "/"
-        }
+        <!-- og metatag -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://epikoding.shop">
+        <meta property="og:title" content="Content Title">
+        <meta property="og:image" content="">
+        <meta property="og:description" content="짤방 하나 올리면 안잡아먹지!">
+        <meta property="og:site_name" content="짤방못잃어">
+        <meta property="og:locale" content="ko_KR">
+        <meta property="og:image:width" content="1200">
 
-        // 짤 모달 시작
-        $(document).on("click", "#upload-zzal", function (e) {
-            // input text 란에 글이 남아 있음
-            // 삭제 하기 위해 공백으로 띄움
-            $(".urlhere").val('');
-            // 스크롤 방지
-            $('body').css('overflow', 'hidden');
-            // modal show
-            $(".modal").fadeIn();
-        });
+        <!-- favicon -->
+        <link rel="shortcut icon" href="/static/favicon/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/static/favicon/favicon.ico" type="image/x-icon">
 
-        // 외부영역 클릭 시 팝업 닫기
-        $(document).mouseup(function (e) {
-            // 전체 모달 영역을 잡아서
-            let LayerPopup = $(".modal");
-            // 타겟의 길이를 가지지 않을때인데
-            // 공부할 필요가 있음
-            if (LayerPopup.has(e.target).length === 0) {
+        <!--stylesheet -->
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+              integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+              crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://unpkg.com/@kfonts/neodgm-code/index.css"/>
+
+        <!-- Fa solid icon 적용 cDN -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+              integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+        <!-- Jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+        <script>
+            // 로그아웃 버튼 누를 시 로그아웃
+            function logout() {
+                console.log()
+                $.removeCookie('mytoken', {path: '/'})
+                alert('로그아웃!')
+                window.location.href = "/"
+            }
+
+            // 짤 모달 시작
+            $(document).on("click", "#upload-zzal", function (e) {
+                // input text 란에 글이 남아 있음
+                // 삭제 하기 위해 공백으로 띄움
+                $(".urlhere").val('');
+                // 스크롤 방지
+                $('body').css('overflow', 'hidden');
+                // modal show
+                $(".modal").fadeIn();
+            });
+
+            // 외부영역 클릭 시 팝업 닫기
+            $(document).mouseup(function (e) {
+                // 전체 모달 영역을 잡아서
+                let LayerPopup = $(".modal");
+                // 타겟의 길이를 가지지 않을때인데
+                // 공부할 필요가 있음
+                if (LayerPopup.has(e.target).length === 0) {
+                    $(".modal").fadeOut();
+                    $('body').css('overflow', 'visible');
+                }
+            });
+            // 짤 올리기 끝
+
+            // 짤올리기 URL upload
+            // OK 버튼이 눌리고 input text가 공백이 아닐 때 POST 요청
+            function upload_url() {
+                // input text에서 값을 가져옴
+                let upload_url = $('#upload_url').val();
+                let upload_tag = $('#upload_tag').val();
+
+                // URL 공백이 아닐때만 POST 요청을 보냄
+                if (upload_url != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/upload",
+                        data: {
+                            url_give: upload_url,
+                            tag_give: upload_tag
+                        },
+                        success: function (response) {
+                            alert("업로드 완료")
+                            window.location.replace("/")
+                        }
+                    })
+                }
+                //
                 $(".modal").fadeOut();
-                $('body').css('overflow', 'visible');
             }
-        });
-        // 짤 올리기 끝
 
-        // 짤올리기 URL upload
-        // OK 버튼이 눌리고 input text가 공백이 아닐 때 POST 요청
-        function upload_url() {
-            // input text에서 값을 가져옴
-            let upload_url = $('#upload_url').val();
-            let upload_tag = $('#upload_tag').val();
-
-            // URL 공백이 아닐때만 POST 요청을 보냄
-            if (upload_url != "") {
-                $.ajax({
-                    type: "POST",
-                    url: "/upload",
-                    data: {
-                        url_give: upload_url,
-                        tag_give: upload_tag
-                    },
-                    success: function (response) {
-                        alert("업로드 완료")
-                        window.location.replace("/")
-                    }
-                })
+            // URL 란, tag란 클릭시 스크롤 방시
+            function scroll_off() {
+                $('body').css('overflow', 'hidden');
             }
-            //
-            $(".modal").fadeOut();
-        }
-
-        // URL 란, tag란 클릭시 스크롤 방시
-        function scroll_off() {
-            $('body').css('overflow', 'hidden');
-        }
 
         // 상세정보 모달 시작
         $(document).on("click", ".zzal", function (e) {
@@ -172,120 +190,115 @@
         })
 
 
-
-
-    </script>
-</head>
-<body>
-<!-- Navbar -->
-<div class="navbar">
-    <div class="container flex">
-        <a href="/" class="logo">짤방못잃어</a>
-        <div class="navbar-links">
-            <ul>
-                <li><a id="upload-zzal">짤올리기</a></li>
-                <li><a href=/posts/mine>My짤</a></li>
-                {% if login_status == 0 %}
-                    <li><a href=/log>로그인</a></li>
-                    <li><a href=/join>회원가입</a></li>
-                {% elif login_status == 1 %}
-                    <li><a href=/log>{{ user_info.id }} 님</a></li>
-                    <li><a onclick="logout()">로그아웃</a></li>
-                {% endif %}
-            </ul>
+        </script>
+    </head>
+    <body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="container flex">
+            <a href="/" class="logo">짤방못잃어</a>
+            <div class="navbar-links">
+                <ul>
+                    <li><a id="upload-zzal">짤올리기</a></li>
+                    <li><a href=/posts/mine>My짤</a></li>
+                    {% if login_status == 0 %}
+                        <li><a href=/log>로그인</a></li>
+                        <li><a href=/join>회원가입</a></li>
+                    {% elif login_status == 1 %}
+                        <li><a href=/log>{{ user_info.id }} 님</a></li>
+                        <li><a onclick="logout()">로그아웃</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<!--main page -->
-<section class="container main">
-    <!--tagbox -->
-    <div class="tagbox">
-        <div class="tag">#개발</div>
-        <div class="tag">#무한도전</div>
-        <div class="tag">#퇴사각</div>
-        <div class="tag">#meme</div>
-        <div class="tag">#동물짤</div>
-        <div class="tag">#커밋</div>
-        <div class="tag">#배고파</div>
-    </div>
+    <!--main page -->
+    <section class="container main">
+        <!--tagbox -->
+        <div class="tagbox">
+            <div class="tag">#내코드6</div>
+            <div class="tag">#무한도전</div>
+            <div class="tag">#퇴사각</div>
+            <div class="tag">#meme</div>
+            <div class="tag">#동물짤</div>
+            <div class="tag">#커밋</div>
+            <div class="tag">#배고파</div>
+        </div>
 
     <div class="search">
         <input class="taghere" type="text" id="command_input" placeholder="짤검색하기!">
         <i class="fas fa-search" id="command_btn"></i>
     </div>
 
-    <div class="grid">
-        {% for i in range(4) %}
-            <div class="line">
-                {% for post in posts[i] %}
-                    <div class="imgwrapper" onclick="">
-                        <img class="zzal" src="{{ post.url }}">
-                        <div class="tagposition">
-                            <div class="imgtagbox" id="">
-                                {% for tag in post.tag %}
-                                    <button class="imgtag" id="">{{ tag }}</button>
-                                {% endfor %}
+        <div class="grid">
+            {% for i in range(4) %}
+                <div class="line">
+                    {% for post in posts[i] %}
+                        <div class="imgwrapper" onclick="">
+                            <img class="zzal" src="{{ post.url }}">
+                            <div class="tagposition">
+                                <div class="imgtagbox" id="">
+                                    {% for tag in post.tag %}
+                                        <button class="imgtag" id="">{{ tag }}</button>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- 상세정보 모달 HTML-->
+    <div class="modal-info">
+        <div class="modal-info-content">
+            <div class="modal-info-none-tag-items">
+                <div class="modal-info-icons">
+                    <div class="leftside">
+                        <p class="clicknum"> 조회수: </p>
                     </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </div>
-</section>
-<!-- 상세정보 모달 HTML-->
-<div class="modal-info">
-    <div class="modal-info-content">
-        <div class="modal-info-none-tag-items">
-            <div class="modal-info-icons">
-                <div class="leftside">
-                    <p class="clicknum"> 조회수: </p>
+                    <div class="rightside">
+                        <i class="fa-solid fa-heart"></i>
+                        <i class="fa-regular fa-heart"></i>
+                        <i class="fa-solid fa-upload"></i>
+                    </div>
                 </div>
-                <div class="rightside">
-                    <i class="fa-solid fa-heart"></i>
-                    <i class="fa-regular fa-heart"></i>
-                    <i class="fa-solid fa-upload"></i>
+                <div class="modal-info-img">
+                    <img class="upload-img" src="">
+                </div>
+                <!--modaltag와 tag는 class가 다릅니다! -->
+                <div class="modal-info-tagbox">
+                    <div class="modaltag">#짱구</div>
+                    <div class="modaltag">#흰둥이</div>
+                    <div class="modaltag">#집에갈래</div>
+                    <div class="modaltag">#퇴사</div>
+                    <div class="modaltag">#짱구</div>
+                    <div class="modaltag">#흰둥이</div>
                 </div>
             </div>
-            <div class="modal-info-img">
-                <img class="upload-img" src="">
+        </div>
+    </div>
+    <!-- 짤 올리기 모달 HTML -->
+    <div class="modal">
+        <div class="modal_content" title="">
+            <div class="modal-title">짤 올리기</div>
+            <div class="modal-url">
+                <input onclick="scroll_off()" class="urlhere" type="text" id="upload_url" placeholder="URL 입력">
+                <!--<i class="fa-solid fa-upload"></i>-->
+                <input onclick="scroll_off()" class="urlhere" type="text" id="upload_tag" placeholder="태그">
+                <div class="tag upload_ok" onclick="upload_url()">올리기!</div>
             </div>
-            <!--modaltag와 tag는 class가 다릅니다! -->
-            <div class="modal-info-tagbox">
-                <div class="modaltag">#짱구</div>
-                <div class="modaltag">#흰둥이</div>
-                <div class="modaltag">#집에갈래</div>
-                <div class="modaltag">#퇴사</div>
-                <div class="modaltag">#짱구</div>
-                <div class="modaltag">#흰둥이</div>
+            <div class="msg">
+                <p>태그 구분은 쉼료로 해주세요! </p>
+                <p>👉 예시: 짤방, 못잃어 👈</p>
             </div>
         </div>
     </div>
-</div>
-<!-- 짤 올리기 모달 HTML -->
-<div class="modal">
-    <div class="modal_content"
-         title="">
-        <div class="modal-title">짤 올리기</div>
-        <div class="modal-url">
-            <input onclick="scroll_off()" class="urlhere" type="text" id="upload_url" placeholder="URL 입력">
-            <!--<i class="fa-solid fa-upload"></i>-->
-            <input onclick="scroll_off()" class="urlhere" type="text" id="upload_tag" placeholder="태그">
+    <section class="footer">
+        <div class="container">
+            <h3>Dev Team C-3</h3>
+            <p>&#128073 이동재 김민수 한지용 권지은 &#128072 </p>
         </div>
-        <div class="modal-btns">
-            <button class="upload_ok" onclick="upload_url()">OK</button>
-            <p>태그 구분은 쉼료로 해주세요.</p>
-            <p>👉 예시: 짤방, 못잃어 👈</p>
-        </div>
-    </div>
-</div>
-
-
-<section class="footer">
-    <div class="container">
-        <h3>Dev Team C-3</h3>
-        <p>&#128073 이동재 김민수 한지용 권지은 &#128072 </p>
-    </div>
-</section>
-</body>
-</html>
+    </section>
+    </body>
+    </html>

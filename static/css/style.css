@@ -40,6 +40,7 @@ body {
 button {
   outline: none;
   border: none;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 button:focus {
@@ -62,6 +63,15 @@ a {
   text-decoration: none;
 }
 
+.sm {
+  font-size: 0.86rem;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.indent {
+  margin: 0.4rem;
+}
+
+
 /* Navbar */
 
 .logo {
@@ -69,6 +79,8 @@ a {
   font-weight: 600;
   font-size: 1.8rem;
   color: black;
+  cursor: pointer;
+
 }
 
 .navbar {
@@ -76,6 +88,11 @@ a {
     padding-bottom: 0.3rem;
     padding-top: 0.3rem;
     box-shadow: 1px 2px 20px 0 rgba(16, 16, 17, 0.08);
+    background-color: white;
+    position: sticky;
+    top: 0px;
+
+    z-index: 1;
 }
 
 .navbar-links ul {
@@ -232,6 +249,7 @@ a {
   height: auto;
   transition: .5s ease;
   backface-visibility: hidden;
+  margin-bottom: 0.3rem;
 }
 
 .tagposition {
@@ -302,6 +320,7 @@ a {
   max-width: 350px;
   margin: auto;
   padding-top: 150px;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .logintext {
@@ -324,7 +343,7 @@ a {
   border-radius: 10px;
   padding: 0.3rem 0.3rem 0.3rem 1rem;
   margin-top: 0.7rem;
-  
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn-primary {
@@ -332,7 +351,7 @@ a {
   height: 3rem;
   
   border-radius: 10px;
-  margin: 3rem 0rem 1rem 0rem;
+  margin: 2.5rem 0rem 0.5rem 0rem;
 
   text-align: center;
   justify-content: center;
@@ -341,7 +360,7 @@ a {
   color: #fff;
   
   font-size: 1.2rem;
-  font-weight: 600;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn {
@@ -354,7 +373,8 @@ a {
 .joinbox {
   max-width: 350px;
   margin: auto;
-  padding-top: 150px;
+  padding-top: 105px;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .jointext {
@@ -362,6 +382,7 @@ a {
   text-align: center;
   font-weight: 600;
   margin-bottom: 4rem;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .joinbox-box {
@@ -394,7 +415,7 @@ a {
   color: #fff;
 
   font-size: 1.2rem;
-  font-weight: 600;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn-primary-kakao {
@@ -402,7 +423,7 @@ a {
   height: 3rem;
 
   border-radius: 10px;
-  margin: 1rem 0rem 0.2rem 0rem;
+  margin: 0.8rem 0rem 0.2rem 0rem;
 
   text-align: center;
   justify-content: center;
@@ -411,12 +432,13 @@ a {
   color: #fff;
 
   font-size: 1.2rem;
-  font-weight: 600;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn {
   outline: none;
   border: none;
+  cursor: pointer;
 }
 
 
@@ -530,9 +552,9 @@ a {
 
 .modal_content{
   /*모달 창 */
-  width:400px; height:350px;
+  width:400px; height:400px;
   border-radius:10px;
-  position:relative; top:50%; left:50%;
+  position:relative; top:40%; left:50%;
   margin-top:-100px; margin-left:-200px;
   text-align:center;
   box-sizing:border-box; padding:74px 0;
@@ -548,11 +570,12 @@ a {
 /* Modal items */
 
 .modal-title{
-  margin-bottom: 1rem;
+  margin: 2rem 0 0 0;
+  font-size: 1.2rem;
 }
 
 .modal-url {
-  height: 100px;
+  width: 20rem;
   position: relative;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -596,6 +619,19 @@ a {
   margin-top: 15px;
 }
 
+.upload_ok {
+  cursor: pointer;
+
+  width: 100%;
+  height: 45px;
+  border-radius: 20px;
+  padding-top: 12px;
+  margin: 1rem 0 0 0;
+}
+
+.msg {
+  margin: 1rem 0 2rem 0;
+}
 /* 짤 올리기 모달 end */
 
 
