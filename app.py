@@ -5,6 +5,7 @@ import certifi
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from datetime import datetime, timedelta
 import random
+import requests
 
 ca = certifi.where()
 
@@ -90,9 +91,14 @@ def mine():
     if token_receive is not None:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload["id"]})  # DB users collection 에서 user 데이터 불러 오기
-        user_zzal = user_info['post_num']  # user 데이터에 저장된 짤 번호 리스트 불러오기
+        print(user_info)
+        if 'post_num' in user_info:
+            user_zzal = user_info['post_num'] # user 데이터에 저장된 짤 번호 리스트 불러오기
+        else:
+            return redirect(url_for("home"))
 
         zzal_list = list()  # mine.html 전달용 짤 저장 리스트 선언
+        
         for zzal in user_zzal: # user가 찜해둔 짤 하나씩 가져 오기 ( mongodb query 문을 통한 한번에 작업 방법 스터디 필요! )
             zzal_list.append(db.posts.find_one({'post_num': zzal}))  # DB posts collection 에서 짤 데이터 불러 오기
 
