@@ -224,7 +224,29 @@ def posts_hit_up():
 # 좋아요 or 취소 선택
 @app.route('/posts/like', methods=["POST"])
 def posts_like():
-    return
+    token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+    user_info = db.users.find_one({"username": payload["id"]})
+    user_id_receive = request.form["user_id_give"]
+    heart_receive = request.form["heart_give"]
+    action_receive = request.form["action_give"]
+    doc = {
+        "post_id": user_id_receive,
+        "username": user_info["username"],
+        "heart": heart_receive
+    }
+    if action_receive == "like":
+        db.likes.insert_one(doc)
+    else:
+        db.likes.delete_one(doc)
+    count = db.likes.count_documents({"user_id": user_id_receive, "heart": heart_receive})
+    return jsonify({"result": "success", 'msg': 'updated', "count": count})
+
+
+
+
+
 
 
 # 짤줍 : 원하는 짤 모으기
