@@ -1,48 +1,42 @@
-from pymongo import MongoClient
 import jwt
 import hashlib
-import certifi
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from datetime import datetime, timedelta
-import random
-import requests
+import data_resource
 
-ca = certifi.where()
+ca = data_resource.ca
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
-# client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
+client = data_resource.client
+db = data_resource.db
 
-db = client.dbfirstweek
+SECRET_KEY = data_resource.SECRET_KEY
 app = Flask(__name__)
-
-# 비밀 키 설정
-SECRET_KEY = 'SPARTA'
-# page 구분선 =========================================================================================
-
 
 # @app.route('/test')
 def test():
 
     # for y in range(100):
-    tester = "minsu"
+    tester = "minsu1"
     pw_receive = "minsu1"
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()  # 패스워드 암호화
 
 
-    testnum = []
-    for i in range(30):
-        testnum.append(random.randrange(0, 50))
+    # testnum = []
+    # for i in range(30):
+    #     testnum.append(random.randrange(51, 115))
 
     doc = {
         "id": tester,
         "pw": pw_hash,
-        "post_num": testnum
+        "post_num": [51, 52, 55, 57, 58, 70, 72, 73, 75, 76, 83, 89, 90, 91, 100, 111, 112]
     }
     db.users.insert_one(doc)
 
-    # db.users.delete_many({'id': {'$regex': "minsu"}})
-
+    # db.posts.delete_many({'tag': {'$regex': "개발"}})
+    print('실행')
     return redirect(url_for("home"))  # 어디로 갈까?
+
+
 # main 페이지 호출
 @app.route('/')
 def home():
@@ -277,8 +271,7 @@ def sign_in():
             'id': id_receive,
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        print("login: ", "payload: ", payload, "token: ", token)
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf8')
         return jsonify({'result': 'success', 'token': token, 'msg': '환영합니다.'})
     # 동일한 유저가 없으면, 결과 -> 실패, 다시 로그인.
     else:
