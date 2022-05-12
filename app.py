@@ -124,21 +124,37 @@ def mine():
 # @app.route('/upload', methods=["POST"])
 @app.route('/upload', methods=["POST"]) #중간 완성
 def upload():
-    tag_receive = set()
     token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-    id_receive = payload["id"]    # 쿠키로 받아도 될듯
-    tag_receive.add(request.form['tag_give'])   # 클라에서 받아오는 값
-    url_receive = request.form['url_give']      # 클라에서 받아오는 값
+    # 업로더 아이디 받아오기
+    id_receive = payload["id"]
+
+    # 받는 태그 empty 세트 생성
+    tag_receive = set()
+
+    # index.html에서 태그 받아오기
+    temp_tag_receive = request.form['tag_give']
+    temp_tag_receive.split(',')
+    length_tag_receive = len(temp_tag_receive.split(','))
+    for i in range(length_tag_receive):
+        tag_receive.add(temp_tag_receive.split(',')[i].strip())
+
+    # 받은 태그 리스트로 변환
+    tag_receive = list(tag_receive)
+    print(tag_receive)
+
+    # 짤방 url 받아오기
+    url_receive = request.form['url_give']
+
+    # 좋아요 및 찜 초기 생성
     hit_receive = 0
     like_receive = 0
+
     today = datetime.now()   # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
     date_receive = today.strftime('%Y-%m-%d-%H-%M-%S')
 
     post_list = list(db.posts.find({}, {'_id': False}))
-
-    tag_receive = list(tag_receive)  # 임시로 set타입을 list 타입으로 변환 / mongodb or dict 에 set타입 오류 발견됨
 
     if len(post_list) == 0:
         post_num = 1
@@ -154,17 +170,21 @@ def upload():
         'hit': hit_receive,
         'like': like_receive
     }
-
     db.posts.insert_one(doc)
 
-    return redirect(url_for("home"))  # 어디로 갈까?
+    return jsonify({'result': 'success'})
 
 
 # 태그 비교 하여 불러 오기
 @app.route('/posts/tag', methods=["GET"])
 def posts_tag():
     tag_receive = request.values.get('tag_give')
-    post_list = list(db.posts.find({'tag': tag_receive[1:]}, {'_id': False}).sort('post_num', -1))
+    print(tag_receive)
+    # post_list = list(db.posts.find({'tag': {'$gte':tag_receive}}, {'_id': False}).sort('post_num', -1))
+    # post_list = list(db.posts.find({'tag.$[element]':tag_receive}, {'_id': False}).sort('post_num', -1))
+    post_list = list(db.posts.find({"tag" : {'$regex': tag_receive}}, {'_id': False}).sort('post_num', -1))
+    print(post_list)
+    print(len(post_list))
     posts = list()  # client 전달용 list 변수 선언
     # posts 재정렬 (기존 리스트를 4개의 묶음 리스트로 변경)
     temp_posts = list()
@@ -177,6 +197,7 @@ def posts_tag():
     if temp_posts:
         posts.append(temp_posts)
 
+    print(posts)
     return jsonify({'posts': posts})
 
 
