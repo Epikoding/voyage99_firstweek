@@ -88,7 +88,8 @@
         $(document).on("click", ".zzal", function (e) {
             // 클릭한 img의 src를 가져와서
             // src 속성에 넣어주기
-            let img = $('.zzal').attr("src");
+            let img = $(this).attr("src");
+            console.log(img)
             $('.upload-img').attr("src", img);
             $(".modal-info").fadeIn();
             // 스크롤 가리기
@@ -102,7 +103,10 @@
             }
         });
 
+
+        // 검색 기능
         $(document).ready(function () {
+            // 태그 검색
             $('.tag').on('click', function () {
                 let tag = $(this).text().substring(1,)
                 $.ajax({
@@ -133,7 +137,41 @@
                     }
                 })
             })
+
+            // 커맨드 검색
+            $('#command_btn').on('click', function () {
+                let tag = $('#command_input').val()
+                $.ajax({
+                    type: 'GET',
+                    url: '/posts/search',
+                    data: {search_give: tag},
+                    success: function (response) {
+                        $('.grid').empty()
+                        let posts_pack = response['posts']
+                        var output = ``
+                        for (let i = 0; i < posts_pack.length; i++) {
+                            let posts = posts_pack[i]
+                            output += `<div class="line">`
+                            for (let y = 0; y < posts.length; y++) {
+                                let post = posts[y]
+                                output += `<div class="imgwrapper" onclick=""><img class="zzal" src="${post['url']}"><div class="tagposition"><div class="imgtagbox" id="">`
+                                for (let z = 0; z < post.length; z++) {
+                                    let tag = post[i]
+                                    console.log(tag)
+                                    output += `<button class="imgtag" id="">${tag}</button>`
+                                }
+                                output += `</div></div></div>`
+                            }
+                            output += `</div>`
+                        }
+                        console.log('도착')
+                        $('.grid').append(output)
+                    }
+                })
+            })
         })
+
+
 
 
     </script>
@@ -162,7 +200,7 @@
 <section class="container main">
     <!--tagbox -->
     <div class="tagbox">
-        <div class="tag">#내코드6</div>
+        <div class="tag">#개발</div>
         <div class="tag">#무한도전</div>
         <div class="tag">#퇴사각</div>
         <div class="tag">#meme</div>
@@ -172,8 +210,8 @@
     </div>
 
     <div class="search">
-        <input class="taghere" type="text" id="" placeholder="짤검색하기!">
-        <i class="fas fa-search" id="" onclick=""></i>
+        <input class="taghere" type="text" id="command_input" placeholder="짤검색하기!">
+        <i class="fas fa-search" id="command_btn"></i>
     </div>
 
     <div class="grid">

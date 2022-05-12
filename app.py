@@ -8,7 +8,8 @@ import random
 
 ca = certifi.where()
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
+client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority',
+                     tlsCAFile=ca)  # minsu
 # client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
 
 db = client.dbfirstweek
@@ -16,17 +17,17 @@ app = Flask(__name__)
 
 # 비밀 키 설정
 SECRET_KEY = 'SPARTA'
+
+
 # page 구분선 =========================================================================================
 
 
 # @app.route('/test')
 def test():
-
     # for y in range(100):
     tester = "minsu"
     pw_receive = "minsu1"
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()  # 패스워드 암호화
-
 
     testnum = []
     for i in range(30):
@@ -42,6 +43,8 @@ def test():
     # db.users.delete_many({'id': {'$regex': "minsu"}})
 
     return redirect(url_for("home"))  # 어디로 갈까?
+
+
 # main 페이지 호출
 @app.route('/')
 def home():
@@ -63,7 +66,7 @@ def home():
     # 쿠키값(로그인 판별) 여부에 따른 index.html 전송 자료 결정
     if token_receive is not None:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"id": payload["id"]})    # DB users collection 에서 user 데이터 불러 오기
+        user_info = db.users.find_one({"id": payload["id"]})  # DB users collection 에서 user 데이터 불러 오기
         login_status = 1  # 로그인 판벌(bool 사용 해봐도 될듯)
         return render_template('index.html', posts=posts, user_info=user_info, login_status=login_status)
     else:
@@ -76,13 +79,15 @@ def home():
 def login():
     return render_template('login.html')
 
+
 # 회원 가입 페이지 이동
 @app.route('/join')
 def join():
     return render_template('join.html')
 
+
 # my짤 페이지 이동
-@app.route('/posts/mine', methods=["GET"])  #중간 완성
+@app.route('/posts/mine', methods=["GET"])  # 중간 완성
 def mine():
     token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
 
@@ -93,7 +98,7 @@ def mine():
         user_zzal = user_info['post_num']  # user 데이터에 저장된 짤 번호 리스트 불러오기
 
         zzal_list = list()  # mine.html 전달용 짤 저장 리스트 선언
-        for zzal in user_zzal: # user가 찜해둔 짤 하나씩 가져 오기 ( mongodb query 문을 통한 한번에 작업 방법 스터디 필요! )
+        for zzal in user_zzal:  # user가 찜해둔 짤 하나씩 가져 오기 ( mongodb query 문을 통한 한번에 작업 방법 스터디 필요! )
             zzal_list.append(db.posts.find_one({'post_num': zzal}))  # DB posts collection 에서 짤 데이터 불러 오기
 
         posts = list()  # client 전달용 list 변수 선언
@@ -107,16 +112,18 @@ def mine():
                 temp_posts = list()
         if temp_posts:
             posts.append(temp_posts)
-
+        print(posts)
+        print(user_info)
         login_status = 1  # 로그인 판벌(bool 사용 해봐도 될듯)
-        return render_template('mine.html', posts=posts, puser_info=user_info, login_status=login_status)
+        return render_template('mine.html', posts=posts, user_info=user_info, login_status=login_status)
     else:
         login_status = 0
         return render_template('mine.html', login_status=login_status)
 
+
 # 짤 데이터 DB에 저장
 # @app.route('/upload', methods=["POST"])
-@app.route('/upload', methods=["POST"]) #중간 완성
+@app.route('/upload', methods=["POST"])  # 중간 완성
 def upload():
     token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -145,7 +152,7 @@ def upload():
     hit_receive = 0
     like_receive = 0
 
-    today = datetime.now()   # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
+    today = datetime.now()  # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
     date_receive = today.strftime('%Y-%m-%d-%H-%M-%S')
 
     post_list = list(db.posts.find({}, {'_id': False}))
@@ -174,13 +181,12 @@ def upload():
 def posts_tag():
     tag_receive = request.values.get('tag_give')
     print(tag_receive)
-    # post_list = list(db.posts.find({'tag': {'$gte':tag_receive}}, {'_id': False}).sort('post_num', -1))
-    # post_list = list(db.posts.find({'tag.$[element]':tag_receive}, {'_id': False}).sort('post_num', -1))
-    post_list = list(db.posts.find({"tag" : {'$regex': tag_receive}}, {'_id': False}).sort('post_num', -1))
-    print(post_list)
-    print(len(post_list))
+    post_list = list(db.posts.find({"tag": {'$regex': tag_receive}}, {'_id': False}).sort('post_num', -1))
     posts = list()  # client 전달용 list 변수 선언
     # posts 재정렬 (기존 리스트를 4개의 묶음 리스트로 변경)
+
+    print(posts)
+
     temp_posts = list()
     amount = len(post_list)
     for i in range(amount):
@@ -196,28 +202,33 @@ def posts_tag():
 
 
 # 검색 하여 데이터 불러 오기
-# @app.route('/posts/search', methods=["GET"])
-@app.route('/posts/search') #작업중
+@app.route('/posts/search', methods=["GET"])
 def posts_search():
-    # tag_receive = request.values.get('tag_give')
-    tag_receive = "개발자4 코린이4"  # 테스트용 코드
+    tag_receive = request.values.get('search_give')  # 클라이언트로 부터 검색어 불러오기
 
-    posts = set()
+    posts_receive = list()  # 클라이언트 전달용 변수
+    post_num = set()
+    for search in tag_receive.split():
+        contain_check = list(db.posts.find({"tag": {'$regex': search}}, {'post_num': 1}))
+        for contain in contain_check:
+            post_num.add(contain['post_num'])
 
-    for tag_receive in tag_receive.split():
-        if (list(db.posts.find({'tag': tag_receive}, {'_id': False}))):
-            posts_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
-            posts_tuple = tuple(posts_list)
-            print(type(posts_tuple))
-            posts.add(posts_tuple)
-            print(posts)
-            print("내부")
-    print("외부")
-    print(posts)
+    for num in post_num:
+        post = db.posts.find_one({"post_num": num}, {'_id': False})
+        posts_receive.append(post)
 
-    # post_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
-    # print(post_list)
-    return redirect(url_for("home"))
+    posts = list()  # client 전달용 list 변수 선언
+    temp_posts = list()
+    amount = len(posts_receive)
+    for i in range(amount):
+        temp_posts.append(posts_receive[i])
+        if len(temp_posts) == (amount // 4):
+            posts.append(temp_posts)
+            temp_posts = list()
+    if temp_posts:
+        posts.append(temp_posts)
+
+    return jsonify({'posts': posts})
 
 
 # 조회수 올리기
@@ -277,6 +288,7 @@ def sign_up():
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
+
 # 회원가입 시 db에 가서 아이디가 있는지 확인
 @app.route('/join/id_check', methods=['POST'])
 def id_check():
@@ -298,7 +310,6 @@ def editprofile():
     else:
         login_status = 0
         return render_template('editprofile.html', login_status=login_status)
-
 
 
 # =========================================================================================
