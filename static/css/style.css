@@ -40,6 +40,7 @@ body {
 button {
   outline: none;
   border: none;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 button:focus {
@@ -62,6 +63,15 @@ a {
   text-decoration: none;
 }
 
+.sm {
+  font-size: 0.86rem;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.indent {
+  margin: 0.4rem;
+}
+
+
 /* Navbar */
 
 .logo {
@@ -69,8 +79,8 @@ a {
   font-weight: 600;
   font-size: 1.8rem;
   color: black;
+  cursor: pointer;
 
-  z-index: -1;
 }
 
 .navbar {
@@ -310,6 +320,7 @@ a {
   max-width: 350px;
   margin: auto;
   padding-top: 150px;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .logintext {
@@ -332,7 +343,7 @@ a {
   border-radius: 10px;
   padding: 0.3rem 0.3rem 0.3rem 1rem;
   margin-top: 0.7rem;
-  
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn-primary {
@@ -340,7 +351,7 @@ a {
   height: 3rem;
   
   border-radius: 10px;
-  margin: 3rem 0rem 1rem 0rem;
+  margin: 2.5rem 0rem 0.5rem 0rem;
 
   text-align: center;
   justify-content: center;
@@ -349,7 +360,7 @@ a {
   color: #fff;
   
   font-size: 1.2rem;
-  font-weight: 600;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn {
@@ -362,7 +373,8 @@ a {
 .joinbox {
   max-width: 350px;
   margin: auto;
-  padding-top: 150px;
+  padding-top: 105px;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .jointext {
@@ -370,6 +382,7 @@ a {
   text-align: center;
   font-weight: 600;
   margin-bottom: 4rem;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .joinbox-box {
@@ -402,7 +415,7 @@ a {
   color: #fff;
 
   font-size: 1.2rem;
-  font-weight: 600;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn-primary-kakao {
@@ -410,7 +423,7 @@ a {
   height: 3rem;
 
   border-radius: 10px;
-  margin: 1rem 0rem 0.2rem 0rem;
+  margin: 0.8rem 0rem 0.2rem 0rem;
 
   text-align: center;
   justify-content: center;
@@ -419,12 +432,13 @@ a {
   color: #fff;
 
   font-size: 1.2rem;
-  font-weight: 600;
+  font-family: "Neo둥근모 Code", "Neo둥근모Code", "neodgm-code";
 }
 
 .btn {
   outline: none;
   border: none;
+  cursor: pointer;
 }
 
 
