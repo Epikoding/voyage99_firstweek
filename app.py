@@ -4,6 +4,7 @@ import hashlib
 import certifi
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from datetime import datetime, timedelta
+import random
 
 ca = certifi.where()
 
@@ -18,6 +19,29 @@ SECRET_KEY = 'SPARTA'
 # page 구분선 =========================================================================================
 
 
+# @app.route('/test')
+def test():
+
+    # for y in range(100):
+    tester = "minsu"
+    pw_receive = "minsu1"
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()  # 패스워드 암호화
+
+
+    testnum = []
+    for i in range(30):
+        testnum.append(random.randrange(0, 50))
+
+    doc = {
+        "id": tester,
+        "pw": pw_hash,
+        "post_num": testnum
+    }
+    db.users.insert_one(doc)
+
+    # db.users.delete_many({'id': {'$regex': "minsu"}})
+
+    return redirect(url_for("home"))  # 어디로 갈까?
 # main 페이지 호출
 @app.route('/')
 def home():
@@ -66,11 +90,23 @@ def mine():
     if token_receive is not None:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload["id"]})  # DB users collection 에서 user 데이터 불러 오기
-        posts_list = user_info['post_num']  # user 데이터에 저장된 짤 번호 리스트 불러오기
+        user_zzal = user_info['post_num']  # user 데이터에 저장된 짤 번호 리스트 불러오기
 
-        posts = list()  # mine.html 전달용 짤 저장 리스트 선언
-        for post in posts_list: # user가 찜해둔 짤 하나씩 가져 오기 ( mongodb query 문을 통한 한번에 작업 방법 스터디 필요! )
-            posts.append(db.posts.find_one({'post_num': post}))  # DB posts collection 에서 짤 데이터 불러 오기
+        zzal_list = list()  # mine.html 전달용 짤 저장 리스트 선언
+        for zzal in user_zzal: # user가 찜해둔 짤 하나씩 가져 오기 ( mongodb query 문을 통한 한번에 작업 방법 스터디 필요! )
+            zzal_list.append(db.posts.find_one({'post_num': zzal}))  # DB posts collection 에서 짤 데이터 불러 오기
+
+        posts = list()  # client 전달용 list 변수 선언
+        # posts 재정렬 (기존 리스트를 4개의 묶음 리스트로 변경)
+        temp_posts = list()
+        amount = len(zzal_list)
+        for i in range(amount):
+            temp_posts.append(zzal_list[i])
+            if len(temp_posts) == (amount // 4):
+                posts.append(temp_posts)
+                temp_posts = list()
+        if temp_posts:
+            posts.append(temp_posts)
 
         login_status = 1  # 로그인 판벌(bool 사용 해봐도 될듯)
         return render_template('mine.html', posts=posts, puser_info=user_info, login_status=login_status)
@@ -119,14 +155,23 @@ def upload():
 
 
 # 태그 비교 하여 불러 오기
-# @app.route('/posts/tag', methods=["GET"])
-@app.route('/posts/tag') #중간 완성
+@app.route('/posts/tag', methods=["GET"])
 def posts_tag():
-    # tag_receive = request.values.get('tag_give')
-    tag_receive = "개발자4"  # 테스트용 코드
-    post_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
-    print(post_list)
-    return redirect(url_for("home"))
+    tag_receive = request.values.get('tag_give')
+    post_list = list(db.posts.find({'tag': tag_receive[1:]}, {'_id': False}).sort('post_num', -1))
+    posts = list()  # client 전달용 list 변수 선언
+    # posts 재정렬 (기존 리스트를 4개의 묶음 리스트로 변경)
+    temp_posts = list()
+    amount = len(post_list)
+    for i in range(amount):
+        temp_posts.append(post_list[i])
+        if len(temp_posts) == (amount // 4):
+            posts.append(temp_posts)
+            temp_posts = list()
+    if temp_posts:
+        posts.append(temp_posts)
+
+    return jsonify({'posts': posts})
 
 
 # 검색 하여 데이터 불러 오기
