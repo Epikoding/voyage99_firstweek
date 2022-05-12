@@ -74,28 +74,23 @@
 
 ## 🖇️ **3. 짤방못잃어 링크**
 
-<aside>
+
 🔗 [http://real-minsu.shop/](http://real-minsu.shop/)
 
-</aside>
 
 ---
 
 ## 🖇️ **4. S.A (Starting Assignment)**
 
-<aside>
 🔗 [https://velog.io/@djlesque/항해991주차-3조-S.AStarting-Assignment](https://velog.io/@djlesque/%ED%95%AD%ED%95%B4991%EC%A3%BC%EC%B0%A8-3%EC%A1%B0-S.AStarting-Assignment)
 
-</aside>
 
 ---
 
 ## 🖇️ **5. 실행화면 유튜브 링크**
 
-<aside>
 🔗 [https://youtu.be/PaqJGbiqBpk](https://youtu.be/PaqJGbiqBpk)
 
-</aside>
 
 ---
 
