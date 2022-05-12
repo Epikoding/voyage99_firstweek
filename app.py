@@ -83,7 +83,7 @@ def join():
     return render_template('join.html')
 
 # my짤 페이지 이동
-@app.route('/posts/mine', methods=["GET"])  #중간 완성
+@app.route('/posts/mine', methods=["GET"])  # 중간 완성
 def mine():
     token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
 
@@ -98,7 +98,7 @@ def mine():
             return redirect(url_for("home"))
 
         zzal_list = list()  # mine.html 전달용 짤 저장 리스트 선언
-        
+
         for zzal in user_zzal: # user가 찜해둔 짤 하나씩 가져 오기 ( mongodb query 문을 통한 한번에 작업 방법 스터디 필요! )
             zzal_list.append(db.posts.find_one({'post_num': zzal}))  # DB posts collection 에서 짤 데이터 불러 오기
 
@@ -181,11 +181,7 @@ def upload():
 def posts_tag():
     tag_receive = request.values.get('tag_give')
     print(tag_receive)
-    # post_list = list(db.posts.find({'tag': {'$gte':tag_receive}}, {'_id': False}).sort('post_num', -1))
-    # post_list = list(db.posts.find({'tag.$[element]':tag_receive}, {'_id': False}).sort('post_num', -1))
-    post_list = list(db.posts.find({"tag" : {'$regex': tag_receive}}, {'_id': False}).sort('post_num', -1))
-    print(post_list)
-    print(len(post_list))
+    post_list = list(db.posts.find({"tag": {'$regex': tag_receive}}, {'_id': False}).sort('post_num', -1))
     posts = list()  # client 전달용 list 변수 선언
     # posts 재정렬 (기존 리스트를 4개의 묶음 리스트로 변경)
     temp_posts = list()
@@ -203,28 +199,33 @@ def posts_tag():
 
 
 # 검색 하여 데이터 불러 오기
-# @app.route('/posts/search', methods=["GET"])
-@app.route('/posts/search') #작업중
+@app.route('/posts/search', methods=["GET"])
 def posts_search():
-    # tag_receive = request.values.get('tag_give')
-    tag_receive = "개발자4 코린이4"  # 테스트용 코드
+    tag_receive = request.values.get('search_give')  # 클라이언트로 부터 검색어 불러오기
 
-    posts = set()
+    posts_receive = list()  # 클라이언트 전달용 변수
+    post_num = set()
+    for search in tag_receive.split():
+        contain_check = list(db.posts.find({"tag": {'$regex': search}}, {'post_num': 1}))
+        for contain in contain_check:
+            post_num.add(contain['post_num'])
 
-    for tag_receive in tag_receive.split():
-        if (list(db.posts.find({'tag': tag_receive}, {'_id': False}))):
-            posts_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
-            posts_tuple = tuple(posts_list)
-            print(type(posts_tuple))
-            posts.add(posts_tuple)
-            print(posts)
-            print("내부")
-    print("외부")
-    print(posts)
+    for num in post_num:
+        post = db.posts.find_one({"post_num": num}, {'_id': False})
+        posts_receive.append(post)
 
-    # post_list = list(db.posts.find({'tag': tag_receive}, {'_id': False}))
-    # print(post_list)
-    return redirect(url_for("home"))
+    posts = list()  # client 전달용 list 변수 선언
+    temp_posts = list()
+    amount = len(posts_receive)
+    for i in range(amount):
+        temp_posts.append(posts_receive[i])
+        if len(temp_posts) == (amount // 4):
+            posts.append(temp_posts)
+            temp_posts = list()
+    if temp_posts:
+        posts.append(temp_posts)
+
+    return jsonify({'posts': posts})
 
 
 # 조회수 올리기
