@@ -8,8 +8,8 @@ import random
 
 ca = certifi.where()
 
-# client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
-client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
+client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
+# client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #동재
 
 db = client.dbfirstweek
 app = Flask(__name__)
@@ -173,7 +173,12 @@ def upload():
 @app.route('/posts/tag', methods=["GET"])
 def posts_tag():
     tag_receive = request.values.get('tag_give')
-    post_list = list(db.posts.find({'tag': tag_receive[1:]}, {'_id': False}).sort('post_num', -1))
+    print(tag_receive)
+    # post_list = list(db.posts.find({'tag': {'$gte':tag_receive}}, {'_id': False}).sort('post_num', -1))
+    # post_list = list(db.posts.find({'tag.$[element]':tag_receive}, {'_id': False}).sort('post_num', -1))
+    post_list = list(db.posts.find({"tag" : {'$regex': tag_receive}}, {'_id': False}).sort('post_num', -1))
+    print(post_list)
+    print(len(post_list))
     posts = list()  # client 전달용 list 변수 선언
     # posts 재정렬 (기존 리스트를 4개의 묶음 리스트로 변경)
     temp_posts = list()
@@ -186,6 +191,7 @@ def posts_tag():
     if temp_posts:
         posts.append(temp_posts)
 
+    print(posts)
     return jsonify({'posts': posts})
 
 
