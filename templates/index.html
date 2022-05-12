@@ -21,6 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <script>
+
         // 로그아웃 버튼 누를 시 로그아웃
         function logout() {
             console.log()
@@ -102,22 +103,21 @@
             }
         });
 
-        function toggle_like(heart) {
-            console.log(heart)
-            let $a_like = $(`a[aria-label='heart']`)
+        function toggle_like(user_info, heart) {
+            console.log(user_info, heart)
+            let $a_like = $(`${user_info} a[aria-label='heart']`)
             let $i_like = $a_like.find("i")
-
-            let user_id = "{{ user_info.id }}"
 
             // $is_like 변수에 'fa-heart'란 클래스가 잘 들어있는지 확인
             $i_like.hasClass("fa-heart") === true ? console.log("true") : console.log("false")
+
 
             if ($i_like.hasClass("fa-regular")) {
                 $.ajax({
                     type: "POST",
                     url: "/update/like",
                     data: {
-                        user_id_give: user_id,
+                        user_id_give: user_info,
                         heart_give: heart,
                         action_give: "like"
                     },
@@ -132,7 +132,7 @@
                     type: "POST",
                     url: "/update/like",
                     data: {
-                        user_id_give: user_id,
+                        user_id_give: user_info,
                         heart_give: heart,
                         action_give: "unlike"
                     },
@@ -142,7 +142,6 @@
                         // $a_like.find("span.like-num").text(response["count"])
                     }
                 })
-
             }
         }
     </script>
@@ -213,7 +212,7 @@
                     <p class="clicknum"> 조회수: </p>
                 </div>
                 <div class="rightside">
-                    <a aria-label="heart" onclick="toggle_like('heart')">
+                    <a aria-label="heart" onclick="toggle_like('', 'heart')">
                         <i class="fa-regular fa-heart"></i>
                     </a>
                     <i class="fa-solid fa-upload"></i>
