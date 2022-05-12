@@ -122,7 +122,7 @@ def mine():
 
 # 짤 데이터 DB에 저장
 # @app.route('/upload', methods=["POST"])
-@app.route('/upload', methods=["POST"]) #중간 완성
+@app.route('/upload', methods=["POST"])
 def upload():
     token_receive = request.cookies.get('mytoken')  # 쿠키값 받아 오기
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -151,7 +151,8 @@ def upload():
     hit_receive = 0
     like_receive = 0
 
-    today = datetime.now()   # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
+    # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
+    today = datetime.now()
     date_receive = today.strftime('%Y-%m-%d-%H-%M-%S')
 
     post_list = list(db.posts.find({}, {'_id': False}))
@@ -233,9 +234,23 @@ def posts_hit_up():
 
 
 # 좋아요 or 취소 선택
-@app.route('/posts/like', methods=["POST"])
+@app.route('/update/like', methods=["POST"])
 def posts_like():
-    return
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+        login_status = 1
+        return render_template('editprofile.html', user_info=user_info, login_status=login_status)
+
+    else:
+        login_status = 0
+        return render_template('editprofile.html', login_status=login_status)
+
+
+
+
+
 
 
 # 짤줍 : 원하는 짤 모으기
@@ -267,7 +282,6 @@ def sign_in():
     # 동일한 유저가 없으면, 결과 -> 실패, 다시 로그인.
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/패스워드가 일치하지 않습니다.'})
-
 
 # 회원 가입
 @app.route('/join/save', methods=["POST"])

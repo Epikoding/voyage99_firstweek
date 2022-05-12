@@ -39,11 +39,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <script>
+
         // 로그아웃 버튼 누를 시 로그아웃
         function logout() {
             console.log()
             $.removeCookie('mytoken', {path: '/'})
-            alert('로그아웃!')
+            // alert('로그아웃!')
             window.location.href = "/"
         }
 
@@ -173,7 +174,47 @@
             })
         })
 
+        function toggle_like(user_info, heart) {
+            console.log(user_info, heart)
+            let $a_like = $(`${user_info} a[aria-label='heart']`)
+            let $i_like = $a_like.find("i")
 
+            // $is_like 변수에 'fa-heart'란 클래스가 잘 들어있는지 확인
+            $i_like.hasClass("fa-heart") === true ? console.log("true") : console.log("false")
+
+
+            if ($i_like.hasClass("fa-regular")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/update/like",
+                    data: {
+                        user_id_give: user_info,
+                        heart_give: heart,
+                        action_give: "like"
+                    },
+                    success: function (response) {
+                        console.log("like")
+                        $i_like.addClass("fa-solid").removeClass("fa-regular")
+                        // $a_like.find("span.like-num").text(response["count"])
+                    }
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/update/like",
+                    data: {
+                        user_id_give: user_info,
+                        heart_give: heart,
+                        action_give: "unlike"
+                    },
+                    success: function (response) {
+                        console.log("unlike")
+                        $i_like.addClass("fa-regular").removeClass("fa-solid")
+                        // $a_like.find("span.like-num").text(response["count"])
+                    }
+                })
+            }
+        }
     </script>
 </head>
 <body>
@@ -183,14 +224,14 @@
         <a href="/" class="logo">짤방못잃어</a>
         <div class="navbar-links">
             <ul>
+                {% if login_status == 0 %}
+                <li><a href=/log>로그인</a></li>
+                <li><a href=/join>회원가입</a></li>
+                {% elif login_status == 1 %}
                 <li><a id="upload-zzal">짤올리기</a></li>
                 <li><a href=/posts/mine>My짤</a></li>
-                {% if login_status == 0 %}
-                    <li><a href=/log>로그인</a></li>
-                    <li><a href=/join>회원가입</a></li>
-                {% elif login_status == 1 %}
-                    <li><a href=/log>{{ user_info.id }} 님</a></li>
-                    <li><a onclick="logout()">로그아웃</a></li>
+                <li><a href=/editprofile>{{ user_info.id }} 님</a></li>
+                <li><a onclick="logout()">로그아웃</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -216,20 +257,20 @@
 
     <div class="grid">
         {% for i in range(4) %}
-            <div class="line">
-                {% for post in posts[i] %}
-                    <div class="imgwrapper" onclick="">
-                        <img class="zzal" src="{{ post.url }}">
-                        <div class="tagposition">
-                            <div class="imgtagbox" id="">
-                                {% for tag in post.tag %}
-                                    <button class="imgtag" id="">{{ tag }}</button>
-                                {% endfor %}
-                            </div>
-                        </div>
+        <div class="line">
+            {% for post in posts[i] %}
+            <div class="imgwrapper" onclick="">
+                <img class="zzal" src="{{ post.url }}">
+                <div class="tagposition">
+                    <div class="imgtagbox" id="">
+                        {% for tag in post.tag %}
+                        <button class="imgtag" id="">{{ tag }}</button>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                </div>
             </div>
+            {% endfor %}
+        </div>
         {% endfor %}
     </div>
 </section>
@@ -242,25 +283,27 @@
                     <p class="clicknum"> 조회수: </p>
                 </div>
                 <div class="rightside">
-                    <i class="fa-solid fa-heart"></i>
-                    <i class="fa-regular fa-heart"></i>
+                    <a aria-label="heart" onclick="toggle_like('', 'heart')">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
                     <i class="fa-solid fa-upload"></i>
                 </div>
             </div>
-            <div class="modal-info-img">
-                <img class="upload-img" src="">
-            </div>
-            <!--modaltag와 tag는 class가 다릅니다! -->
-            <div class="modal-info-tagbox">
-                <div class="modaltag">#짱구</div>
-                <div class="modaltag">#흰둥이</div>
-                <div class="modaltag">#집에갈래</div>
-                <div class="modaltag">#퇴사</div>
-                <div class="modaltag">#짱구</div>
-                <div class="modaltag">#흰둥이</div>
-            </div>
+        </div>
+        <div class="modal-info-img">
+            <img class="upload-img" src="">
+        </div>
+        <!--modaltag와 tag는 class가 다릅니다! -->
+        <div class="modal-info-tagbox">
+            <div class="modaltag">#짱구</div>
+            <div class="modaltag">#흰둥이</div>
+            <div class="modaltag">#집에갈래</div>
+            <div class="modaltag">#퇴사</div>
+            <div class="modaltag">#짱구</div>
+            <div class="modaltag">#흰둥이</div>
         </div>
     </div>
+</div>
 </div>
 <!-- 짤 올리기 모달 HTML -->
 <div class="modal">
