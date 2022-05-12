@@ -101,6 +101,41 @@
                 $(".modal-info").fadeOut();
             }
         });
+
+        $(document).ready(function () {
+            $('.tag').on('click', function () {
+                let tag = $(this).text().substring(1,)
+                $.ajax({
+                    type: 'GET',
+                    url: '/posts/tag',
+                    data: {tag_give: tag},
+                    success: function (response) {
+                        $('.grid').empty()
+                        let posts_pack = response['posts']
+                        var output = ``
+                        for (let i = 0; i < posts_pack.length; i++) {
+                            let posts = posts_pack[i]
+                            output += `<div class="line">`
+                            for (let y = 0; y < posts.length; y++) {
+                                let post = posts[y]
+                                output += `<div class="imgwrapper" onclick=""><img class="zzal" src="${post['url']}"><div class="tagposition"><div class="imgtagbox" id="">`
+                                for (let z = 0; z < post.length; z++) {
+                                    let tag = post[i]
+                                    console.log(tag)
+                                    output += `<button class="imgtag" id="">${tag}</button>`
+                                }
+                                output += `</div></div></div>`
+                            }
+                            output += `</div>`
+                        }
+                        console.log('도착')
+                        $('.grid').append(output)
+                    }
+                })
+            })
+        })
+
+
     </script>
 </head>
 <body>
@@ -127,7 +162,7 @@
 <section class="container main">
     <!--tagbox -->
     <div class="tagbox">
-        <div class="tag">#짱구</div>
+        <div class="tag">#내코드6</div>
         <div class="tag">#무한도전</div>
         <div class="tag">#퇴사각</div>
         <div class="tag">#meme</div>
